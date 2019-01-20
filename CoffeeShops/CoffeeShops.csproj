@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.2105168" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CoffeeShops.Common\CoffeeShops.Common.csproj" />
+  </ItemGroup>
+
 </Project>

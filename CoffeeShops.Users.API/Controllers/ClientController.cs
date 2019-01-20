@@ -32,7 +32,7 @@ namespace CoffeeShops.Users.API.Controllers
             return Ok(clients.Select(x => new ClientModel()
             {
                 Id = x.Id,
-                Age = x.Age,
+                Birthday = x.Birthday,
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 MiddleName = x.MiddleName,
@@ -49,13 +49,13 @@ namespace CoffeeShops.Users.API.Controllers
             if (client != null)
                 return Ok(new ClientModel()
                 {
-                    Id = client?.Id,
-                    Age = client?.Age,
-                    FirstName = client?.FirstName,
-                    LastName = client?.LastName,
-                    MiddleName = client?.MiddleName,
-                    Phone = client?.Phone,
-                    Sex = client?.Sex
+                    Id = client.Id,
+                    Birthday = client.Birthday,
+                    FirstName = client.FirstName,
+                    LastName = client.LastName,
+                    MiddleName = client.MiddleName,
+                    Phone = client.Phone,
+                    Sex = client.Sex
                 });
             else
                 return NotFound();
@@ -69,7 +69,7 @@ namespace CoffeeShops.Users.API.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 MiddleName = model.MiddleName,
-                Age = model.Age,
+                Birthday = model.Birthday,
                 Phone = model.Phone,
                 Sex = model.Sex
             };
@@ -87,7 +87,7 @@ namespace CoffeeShops.Users.API.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 MiddleName = model.MiddleName,
-                Age = model.Age,
+                Birthday = model.Birthday,
                 Phone = model.Phone,
                 Sex = model.Sex
             };

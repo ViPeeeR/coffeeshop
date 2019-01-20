@@ -23,13 +23,13 @@ namespace CoffeeShops.Shops.API.Controllers
         [HttpGet("{shopId}")]
         public async Task<ActionResult<IEnumerable<ShopModel>>> Get(string shopId, [FromQuery]int page, [FromQuery]int size)
         {
-            var shops = await _productRepository.GetAll(shopId);
+            var products = await _productRepository.GetAll(shopId);
             if (page > 0 && size > 0)
             {
-                shops = shops.Skip((page - 1) * size).Take(size);
+                products = products.Skip((page - 1) * size).Take(size);
             }
 
-            return Ok(shops.Select(x => new ProductModel()
+            return Ok(products.Select(x => new ProductModel()
             {
                 Id = x.Id,
                 Description = x.Description,

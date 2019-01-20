@@ -25,9 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShops.Orders.API", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShops.Orders.Tests", "CoffeeShops.Orders.Tests\CoffeeShops.Orders.Tests.csproj", "{0928BC02-3606-4C06-8744-976C05DE720D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShops.Abstract", "CoffeeShops.Abstract\CoffeeShops.Abstract.csproj", "{0A0AC5A4-97F7-4D0F-BC18-1AF08E9BCB11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShops.Abstract", "CoffeeShops.Abstract\CoffeeShops.Abstract.csproj", "{0A0AC5A4-97F7-4D0F-BC18-1AF08E9BCB11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShops.Common", "CoffeeShops.Common\CoffeeShops.Common.csproj", "{6BA730B6-E57E-4FD3-A506-9F654C0F8915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShops.Common", "CoffeeShops.Common\CoffeeShops.Common.csproj", "{6BA730B6-E57E-4FD3-A506-9F654C0F8915}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShops.Tests", "CoffeeShops.Tests\CoffeeShops.Tests.csproj", "{5ED64805-34C2-46D8-B7CA-29EDA308F96B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{6BA730B6-E57E-4FD3-A506-9F654C0F8915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BA730B6-E57E-4FD3-A506-9F654C0F8915}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BA730B6-E57E-4FD3-A506-9F654C0F8915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ED64805-34C2-46D8-B7CA-29EDA308F96B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ED64805-34C2-46D8-B7CA-29EDA308F96B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ED64805-34C2-46D8-B7CA-29EDA308F96B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ED64805-34C2-46D8-B7CA-29EDA308F96B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

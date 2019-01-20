@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CoffeeShops.Users.API.Migrations
 {
@@ -14,8 +15,8 @@ namespace CoffeeShops.Users.API.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     MiddleName = table.Column<string>(nullable: true),
-                    Sex = table.Column<string>(nullable: true),
-                    Age = table.Column<string>(nullable: true),
+                    Sex = table.Column<int>(nullable: false),
+                    Birthday = table.Column<DateTime>(nullable: false),
                     Phone = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

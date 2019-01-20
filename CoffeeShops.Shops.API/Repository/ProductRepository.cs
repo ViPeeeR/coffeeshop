@@ -26,12 +26,6 @@ namespace CoffeeShops.Shops.API.Repository
             return await Get(result.Entity.Id);
         }
 
-        public async Task AddRange(IEnumerable<Product> products)
-        {
-            await _context.Products.AddRangeAsync(products);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<Product> Get(string id)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);

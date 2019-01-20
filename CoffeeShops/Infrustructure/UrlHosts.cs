@@ -7,10 +7,10 @@ namespace CoffeeShops.Infrustructure
 {
     public class UrlHosts
     {
-        public string Clients { get; set; }
+        public string Client { get; set; }
 
-        public string Shops { get; set; }
+        public string Shop { get; set; }
 
-        public string Orders { get; set; }
+        public string Order { get; set; }
     }
 }

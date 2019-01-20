@@ -12,10 +12,12 @@ namespace CoffeeShops.Common
 
         public string MiddleName { get; set; }
 
-        public string Sex { get; set; }
+        public Sex Sex { get; set; }
 
-        public string Age { get; set; }
+        public DateTime Birthday { get; set; }
 
         public string Phone { get; set; }
     }
+
+
 }

@@ -10,8 +10,5 @@ namespace CoffeeShops.Shops.API.Abstracts
     public interface IProductRepository : IRepository<Product>
     {
         Task<IEnumerable<Product>> GetAll(string shopId);
-
-        Task AddRange(IEnumerable<Product> products);
-
     }
 }
