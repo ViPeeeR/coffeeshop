@@ -9,5 +9,8 @@ namespace CoffeeShops.Orders.API.Abstracts
 {
     public interface IOrderRepository : IRepository<Order>
     {
+        Task<IEnumerable<Order>> GetAll();
+
+        Task<Order> AddProducts(IEnumerable<ProductItem> productItems);
     }
 }

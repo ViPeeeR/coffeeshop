@@ -1,5 +1,8 @@
-﻿using CoffeeShops.Shops.API.Abstracts;
+﻿using CoffeeShops.Abstract;
+using CoffeeShops.Shops.API.Abstracts;
+using CoffeeShops.Shops.API.Context;
 using CoffeeShops.Shops.API.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,27 +12,63 @@ namespace CoffeeShops.Shops.API.Repository
 {
     public class ProductRepository : IProductRepository
     {
-        public Task Add(Product item)
+        private readonly ApplicationContext _context;
+
+        public ProductRepository(ApplicationContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Product> Get(string id)
+        public async Task<Product> Add(Product item)
         {
-            throw new NotImplementedException();
+            var result = await _context.Products.AddAsync(item);
+            await _context.SaveChangesAsync();
+            return await Get(result.Entity.Id);
         }
 
-        public Task<IEnumerable<Product>> GetAll()
+        public async Task AddRange(IEnumerable<Product> products)
         {
-            throw new NotImplementedException();
+            await _context.Products.AddRangeAsync(products);
+            await _context.SaveChangesAsync();
         }
 
-        public Task Remove(string id)
+        public async Task<Product> Get(string id)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            return product;
         }
 
-        public Task Update(Product item)
+        public async Task<IEnumerable<Product>> GetAll(string shopId)
+        {
+            var products = await _context.Products.Where(x => x.ShopId == shopId).ToListAsync();
+            return products;
+        }
+
+        public async Task Remove(string id)
+        {
+            var product = await Get(id);
+            if (product == null)
+                throw new Exception("Client not found!");
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Update(Product item)
+        {
+            var product = Get(item.Id);
+            if (product == null)
+            {
+                await Add(item);
+            }
+            else
+            {
+                _context.Products.Update(item);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        Task<Product> IRepository<Product>.Add(Product item)
         {
             throw new NotImplementedException();
         }

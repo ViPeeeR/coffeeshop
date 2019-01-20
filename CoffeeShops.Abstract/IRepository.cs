@@ -8,9 +8,7 @@ namespace CoffeeShops.Abstract
     {
         Task<T> Get(string id);
 
-        Task<IEnumerable<T>> GetAll();
-
-        Task Add(T item);
+        Task<T> Add(T item);
 
         Task Remove(string id);
 

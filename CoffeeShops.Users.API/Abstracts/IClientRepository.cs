@@ -9,5 +9,6 @@ namespace CoffeeShops.Users.API.Abstracts
 {
     public interface IClientRepository : IRepository<Client>
     {
+        Task<IEnumerable<Client>> GetAll();
     }
 }

@@ -1,5 +1,7 @@
 ﻿using CoffeeShops.Shops.API.Abstracts;
+using CoffeeShops.Shops.API.Context;
 using CoffeeShops.Shops.API.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +11,63 @@ namespace CoffeeShops.Shops.API.Repository
 {
     public class ShopRepository : IShopRepository
     {
-        public Task Add(Shop item)
+        private readonly ApplicationContext _context;
+
+        public ShopRepository(ApplicationContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Shop> Get(string id)
+        public async Task<Shop> Add(Shop item)
         {
-            throw new NotImplementedException();
+            var result = await _context.Shops.AddAsync(item);
+            await _context.SaveChangesAsync();
+            return await Get(result.Entity.Id);
         }
 
-        public Task<IEnumerable<Shop>> GetAll()
+        public async Task<Shop> Get(string id)
         {
-            throw new NotImplementedException();
+            var shop = await _context.Shops
+                .Include(x => x.Products)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return shop;
         }
 
-        public Task Remove(string id)
+        public async Task<IEnumerable<Shop>> GetAll()
         {
-            throw new NotImplementedException();
+            var shops = await _context.Shops
+                .Include(x => x.Products)
+                .ToListAsync();
+
+            return shops;
         }
 
-        public Task Update(Shop item)
+        public async Task Remove(string id)
         {
-            throw new NotImplementedException();
+            var shop = await Get(id);
+            if (shop == null)
+                throw new Exception("Client not found!");
+
+            var products = _context.Products.Where(x => x.ShopId == id);
+
+            _context.Shops.Remove(shop);
+            _context.Products.RemoveRange(products);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Update(Shop item)
+        {
+            var shop = Get(item.Id);
+            if (shop == null)
+            {
+                await Add(item);
+            }
+            else
+            {
+                _context.Shops.Update(item);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoffeeShops.Abstract\CoffeeShops.Abstract.csproj" />
+    <ProjectReference Include="..\CoffeeShops.Common\CoffeeShops.Common.csproj" />
   </ItemGroup>
 
 </Project>

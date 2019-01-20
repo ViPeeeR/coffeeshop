@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace CoffeeShops.Users.API.Models
+namespace CoffeeShops.Common
 {
-    public class Client
+    public class ClientModel
     {
-        [Key]
         public string Id { get; set; }
 
         public string FirstName { get; set; }

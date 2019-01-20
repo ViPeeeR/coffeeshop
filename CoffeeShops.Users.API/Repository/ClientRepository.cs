@@ -1,5 +1,7 @@
 ﻿using CoffeeShops.Users.API.Abstracts;
+using CoffeeShops.Users.API.Context;
 using CoffeeShops.Users.API.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +11,54 @@ namespace CoffeeShops.Users.API.Repository
 {
     public class ClientRepository : IClientRepository
     {
-        public Task Add(Client item)
+        private readonly ApplicationContext _context;
+
+        public ClientRepository(ApplicationContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Client> Get(string id)
+        public async Task<Client> Add(Client item)
         {
-            throw new NotImplementedException();
+            var result = await _context.Clients.AddAsync(item);
+            await _context.SaveChangesAsync();
+            return await Get(result.Entity.Id);
         }
 
-        public Task<IEnumerable<Client>> GetAll()
+        public async Task<Client> Get(string id)
         {
-            throw new NotImplementedException();
+            var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == id);
+            return client;
         }
 
-        public Task Remove(string id)
+        public async Task<IEnumerable<Client>> GetAll()
         {
-            throw new NotImplementedException();
+            var clients = await _context.Clients.ToListAsync();
+            return clients;
         }
 
-        public Task Update(Client item)
+        public async Task Remove(string id)
         {
-            throw new NotImplementedException();
+            var client = await Get(id);
+            if (client == null)
+                throw new Exception("Client not found!");
+
+            _context.Clients.Remove(client);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Update(Client item)
+        {
+            var client = Get(item.Id);
+            if (client == null)
+            {
+                await Add(item);
+            }
+            else
+            {
+                _context.Clients.Update(item);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

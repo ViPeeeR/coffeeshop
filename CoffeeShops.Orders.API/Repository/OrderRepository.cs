@@ -1,5 +1,7 @@
 ﻿using CoffeeShops.Orders.API.Abstracts;
+using CoffeeShops.Orders.API.Context;
 using CoffeeShops.Orders.API.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +11,62 @@ namespace CoffeeShops.Orders.API.Repository
 {
     public class OrderRepository : IOrderRepository
     {
-        public Task Add(Order item)
+        private readonly ApplicationContext _context;
+
+        public OrderRepository(ApplicationContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Order> Get(string id)
+        public async Task<Order> Add(Order item)
         {
-            throw new NotImplementedException();
+            var result = await _context.Orders.AddAsync(item);
+            await _context.SaveChangesAsync();
+            return await Get(result.Entity.Id);
         }
 
-        public Task<IEnumerable<Order>> GetAll()
+        public async Task<Order> AddProducts(IEnumerable<ProductItem> productItems)
         {
-            throw new NotImplementedException();
+            await _context.Products.AddRangeAsync(productItems);
+            await _context.SaveChangesAsync();
+
+            return await Get(productItems.First().Id);
         }
 
-        public Task Remove(string id)
+        public async Task<Order> Get(string id)
         {
-            throw new NotImplementedException();
+            var order = await _context.Orders.Include(x => x.Products).FirstOrDefaultAsync(x => x.Id == id);
+            return order;
         }
 
-        public Task Update(Order item)
+        public async Task<IEnumerable<Order>> GetAll()
         {
-            throw new NotImplementedException();
+            var orders = await _context.Orders.ToListAsync();
+            return orders;
+        }
+
+        public async Task Remove(string id)
+        {
+            var order = await Get(id);
+            if (order == null)
+                throw new Exception("Order not found!");
+
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Update(Order item)
+        {
+            var order = Get(item.Id);
+            if (order == null)
+            {
+                await Add(item);
+            }
+            else
+            {
+                _context.Orders.Update(item);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

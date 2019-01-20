@@ -1,22 +1,20 @@
-﻿using CoffeeShops.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace CoffeeShops.Orders.API.Models
+namespace CoffeeShops.Common
 {
-    public class Order
+    public class OrderModel
     {
-        [Key]
         public string Id { get; set; }
 
         public string ClientId { get; set; }
 
+        public ClientModel Client { get; set; }
+
         public string ShopId { get; set; }
 
-        public IEnumerable<ProductItem> Products { get; set; }
+        public IEnumerable<ProductItemModel> Products { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -27,5 +25,16 @@ namespace CoffeeShops.Orders.API.Models
         public StatusPayment StatusPayment { get; set; }
 
         public StatusOrder StatusOrder { get; set; }
+    }
+
+    public class ProductItemModel
+    {
+        public string Id { get; set; }
+
+        public string ProductId { get; set; }
+
+        public int Count { get; set; }
+
+        public string OrderId { get; set; }
     }
 }
