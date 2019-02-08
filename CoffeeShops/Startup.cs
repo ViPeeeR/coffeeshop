@@ -3,6 +3,7 @@ using CoffeeShops.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +31,11 @@ namespace CoffeeShops
             services.AddHttpClient<IProductService, ProductService>();
             services.AddHttpClient<IShopService, ShopService>();
             services.AddHttpClient<IOrderService, OrderService>();
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,8 +51,22 @@ namespace CoffeeShops
                 app.UseHsts();
             }
 
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc().UseWhen(context => true, builder =>
+            {
+                builder.UseSpa(spa =>
+                {
+                    spa.Options.SourcePath = "ClientApp";
+
+                    if (env.IsDevelopment())
+                    {
+                        spa.UseReactDevelopmentServer(npmScript: "start");
+                    }
+                });
+            });
         }
     }
 }

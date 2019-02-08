@@ -1,0 +1,3 @@
+{
+   "presets": ["flow", "transform-flow-strip-types"]
+}

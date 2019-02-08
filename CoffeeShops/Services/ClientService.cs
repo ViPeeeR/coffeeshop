@@ -54,6 +54,7 @@ namespace CoffeeShops.Services
         public async Task Update(ClientModel model)
         {
             await _httpClient.PutAsJsonAsync(_urls.Client + $"/api/v1/client", model);
+            
         }
     }
 }
