@@ -12,7 +12,7 @@ class Products extends Component {
     }
 
     async componentWillMount() {
-        let data =  awaitthis.loadData();
+        let data = await this.loadData();
 
         console.log(data);
 
@@ -27,12 +27,11 @@ class Products extends Component {
     }
 
     deleteProduct = async (event, id) => {
-        event.stopPropagation();
-        let result = await axios.delete(`/api/v1/product/${id}`);
-        if (result === 200) {
-            let data = await this.loadData();
-            this.setState({ products: data });
-        }
+        event.preventDefault();
+
+        await axios.delete(`/api/v1/product/${id}`);
+        let data = await this.loadData();
+        this.setState({ products: data });
     }
 
     render() {
@@ -56,7 +55,7 @@ class Products extends Component {
 
                     <ControlPanel>
                         <Block><Link to={`/shops/products/edit/${value.id}`}>Редактировать</Link></Block>
-                        <Block><a href="http://удалименядруг.рф" onClick={(event) => this.deleteProduct(event, value.id)}>Удалить</a></Block>
+                        <Block><a href="http://уменятакдругумер.рф" onClick={(event) => this.deleteProduct(event, value.id)}>Удалить</a></Block>
                     </ControlPanel>
                 </div>
             )

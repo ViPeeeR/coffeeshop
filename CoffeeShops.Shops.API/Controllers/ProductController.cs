@@ -71,17 +71,19 @@ namespace CoffeeShops.Shops.API.Controllers
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(string id, [FromBody] ProductModel model)
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] ProductModel model)
         {
-            var client = new Product()
+            var product = new Product()
             {
-                Id = id,
+                Id = model.Id,
+                Name = model.Name,
                 Description = model.Description,
                 Price = model.Price,
+                ShopId = model.ShopId
             };
 
-            await _productRepository.Update(client);
+            await _productRepository.Update(product);
             return Ok();
         }
 

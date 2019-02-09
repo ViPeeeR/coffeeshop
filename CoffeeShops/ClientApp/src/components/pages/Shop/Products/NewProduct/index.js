@@ -18,6 +18,17 @@ class NewProducts extends Component {
         redirect: false,
     }
 
+    async componentWillMount() {
+        let id = this.props.match.params.id;
+
+        if (id) {
+            let data = await axios.get(`/api/v1/product/${id}`)
+                .then(({ data }) => data);
+            console.log(data);
+            this.setState({ values: data });
+        }
+    }
+
     changeField = event => {
         const target = event.target
 
@@ -32,8 +43,7 @@ class NewProducts extends Component {
         //TODO: вызвать api
         const { values } = this.state
         let shopId = this.props.match.params.shopId;
-
-        values.shopId = shopId;
+        values.shopId = !shopId ? values.shopId : shopId;
 
         console.log(values)
 

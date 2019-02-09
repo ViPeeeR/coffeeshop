@@ -25,9 +25,16 @@ class Home extends Component {
                         <Link to="/shops">Просмотр</Link>
                     </li>
                 </ul>
-                <a></a>
-                <a>Добавить товары к магазину</a>
-                <a>Выбрать товары - заказать товар</a>
+
+                <h2>Заказы</h2>
+                <ul>
+                    <li>
+                        <Link to="/orders/create">Создать</Link>
+                    </li>
+                    <li>
+                        <Link to="/orders">Просмотр</Link>
+                    </li>
+                </ul>
             </div>
 
         );

@@ -60,21 +60,21 @@ namespace CoffeeShops.Shops.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] ShopModel model)
         {
-            var client = new Shop()
+            var shop = new Shop()
             {
                 Name = model.Name,
                 Address = model.Address,
                 Phone = model.Phone
             };
 
-            await _shopRepository.Add(client);
+            await _shopRepository.Add(shop);
             return Ok();
         }
 
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] ShopModel model)
         {
-            var client = new Shop()
+            var shop = new Shop()
             {
                 Id = model.Id,
                 Name = model.Name,
@@ -82,7 +82,7 @@ namespace CoffeeShops.Shops.API.Controllers
                 Phone = model.Phone
             };
 
-            await _shopRepository.Update(client);
+            await _shopRepository.Update(shop);
             return Ok();
         }
 

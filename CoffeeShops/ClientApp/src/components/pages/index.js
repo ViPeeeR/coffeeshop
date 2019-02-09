@@ -26,6 +26,7 @@ class Pages extends Component {
                     <Route path="/shops/edit/:id" component={NewShop} />
                     <Route path="/shops/products/list/:shopId" component={Products} />
                     <Route path="/shops/products/create/:shopId" component={NewProduct} />
+                    <Route path="/shops/products/edit/:id" component={NewProduct} />
                 </Switch>
             </Container>
         );
