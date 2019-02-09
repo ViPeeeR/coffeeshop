@@ -71,12 +71,12 @@ namespace CoffeeShops.Shops.API.Controllers
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(string id, [FromBody] ShopModel model)
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] ShopModel model)
         {
             var client = new Shop()
             {
-                Id = id,
+                Id = model.Id,
                 Name = model.Name,
                 Address = model.Address,
                 Phone = model.Phone

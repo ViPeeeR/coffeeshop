@@ -26,12 +26,12 @@ namespace CoffeeShops.Services
 
         public async Task Create(OrderModel model)
         {
-            await _httpClient.PostAsJsonAsync(_urls.Client + "/api/v1/order", model);
+            await _httpClient.PostAsJsonAsync(_urls.Order + "/api/v1/order", model);
         }
 
         public async Task<IEnumerable<OrderModel>> GetAll(int page, int size)
         {
-            var data = await _httpClient.GetStringAsync(_urls.Client + $"/api/v1/order?page={page}&size={size}");
+            var data = await _httpClient.GetStringAsync(_urls.Order + $"/api/v1/order?page={page}&size={size}");
             var orders = !string.IsNullOrEmpty(data)
                 ? JsonConvert.DeserializeObject<IEnumerable<OrderModel>>(data)
                 : null;
@@ -41,19 +41,19 @@ namespace CoffeeShops.Services
 
         public async Task<OrderModel> GetById(string id)
         {
-            var data = await _httpClient.GetStringAsync(_urls.Client + $"/api/v1/order/{id}");
+            var data = await _httpClient.GetStringAsync(_urls.Order + $"/api/v1/order/{id}");
             var order = !string.IsNullOrEmpty(data) ? JsonConvert.DeserializeObject<OrderModel>(data) : null;
             return order;
         }
 
         public async Task Remove(string id)
         {
-            await _httpClient.DeleteAsync(_urls.Client + $"/api/v1/order/{id}");
+            await _httpClient.DeleteAsync(_urls.Order + $"/api/v1/order/{id}");
         }
 
         public async Task Update(OrderModel model)
         {
-            await _httpClient.PutAsJsonAsync(_urls.Client + $"/api/v1/order", model);
+            await _httpClient.PutAsJsonAsync(_urls.Order + $"/api/v1/order", model);
         }
     }
 }

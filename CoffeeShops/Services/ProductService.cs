@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CoffeeShops.Common;
 using CoffeeShops.Infrustructure;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace CoffeeShops.Services
 {
@@ -23,24 +22,35 @@ namespace CoffeeShops.Services
             _urls = config.Value;
         }
 
-        public Task Create(ProductModel model)
+        public async Task Create(ProductModel model)
         {
-            throw new NotImplementedException();
+            await _httpClient.PostAsJsonAsync(_urls.Shop + "/api/v1/product", model);
         }
 
-        public Task<IEnumerable<ProductModel>> GetAll(string shopId, int page, int size)
+        public async Task<IEnumerable<ProductModel>> GetAll(string shopId, int page, int size)
         {
-            throw new NotImplementedException();
+            var data = await _httpClient.GetStringAsync(_urls.Shop + $"/api/v1/product?shopId={shopId}&page={page}&size={size}");
+            var products = !string.IsNullOrEmpty(data)
+                ? JsonConvert.DeserializeObject<IEnumerable<ProductModel>>(data)
+                : null;
+            return products;
         }
 
-        public Task Remove(string id)
+        public async Task<ProductModel> GetById(string id)
         {
-            throw new NotImplementedException();
+            var data = await _httpClient.GetStringAsync(_urls.Shop + $"/api/v1/product/{id}");
+            var product = !string.IsNullOrEmpty(data) ? JsonConvert.DeserializeObject<ProductModel>(data) : null;
+            return product;
         }
 
-        public Task Update(ProductModel model)
+        public async Task Remove(string id)
         {
-            throw new NotImplementedException();
+            await _httpClient.DeleteAsync(_urls.Shop + $"/api/v1/product/{id}");
+        }
+
+        public async Task Update(ProductModel model)
+        {
+            await _httpClient.PutAsJsonAsync(_urls.Shop + $"/api/v1/product", model);
         }
     }
 }

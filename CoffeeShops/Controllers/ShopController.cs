@@ -10,41 +10,41 @@ namespace CoffeeShops.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ClientController : ControllerBase
+    public class ShopController : ControllerBase
     {
-        private readonly IClientService _clientService;
+        private readonly IShopService _shopService;
 
-        public ClientController(IClientService clientService)
+        public ShopController(IShopService shopService)
         {
-            _clientService = clientService;
+            _shopService = shopService;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody]ClientModel model)
+        public async Task<ActionResult> Create([FromBody]ShopModel model)
         {
-            await _clientService.Create(model);
+            await _shopService.Create(model);
             return Ok();
         }
 
         [HttpPut]
-        public async Task<ActionResult> Update([FromBody]ClientModel model)
+        public async Task<ActionResult> Update([FromBody]ShopModel model)
         {
-            await _clientService.Update(model);
+            await _shopService.Update(model);
             return Ok();
         }
 
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery]int page, [FromQuery]int size)
         {
-            var clients = await _clientService.GetAll(0, 0);
-            return Ok(clients);
+            var shops = await _shopService.GetAll(0, 0);
+            return Ok(shops);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(string id)
         {
-            var client = await _clientService.GetById(id);
-            return Ok(client);
+            var shop = await _shopService.GetById(id);
+            return Ok(shop);
         }
     }
 }

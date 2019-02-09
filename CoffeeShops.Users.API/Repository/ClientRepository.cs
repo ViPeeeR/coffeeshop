@@ -27,13 +27,13 @@ namespace CoffeeShops.Users.API.Repository
 
         public async Task<Client> Get(string id)
         {
-            var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == id);
+            var client = await _context.Clients.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             return client;
         }
 
         public async Task<IEnumerable<Client>> GetAll()
         {
-            var clients = await _context.Clients.ToListAsync();
+            var clients = await _context.Clients.AsNoTracking().ToListAsync();
             return clients;
         }
 

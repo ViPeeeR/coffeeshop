@@ -12,6 +12,8 @@ namespace CoffeeShops.Services
 
         Task Update(ProductModel model);
 
+        Task<ProductModel> GetById(string id);
+
         Task<IEnumerable<ProductModel>> GetAll(string shopId, int page, int size);
 
         Task Remove(string id);

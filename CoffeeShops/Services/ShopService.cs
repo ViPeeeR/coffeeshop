@@ -26,12 +26,12 @@ namespace CoffeeShops.Services
 
         public async Task Create(ShopModel model)
         {
-            await _httpClient.PostAsJsonAsync(_urls.Client + "/api/v1/shop", model);
+            await _httpClient.PostAsJsonAsync(_urls.Shop + "/api/v1/shop", model);
         }
 
         public async Task<IEnumerable<ShopModel>> GetAll(int page, int size)
         {
-            var data = await _httpClient.GetStringAsync(_urls.Client + $"/api/v1/shop?page={page}&size={size}");
+            var data = await _httpClient.GetStringAsync(_urls.Shop + $"/api/v1/shop?page={page}&size={size}");
             var shops = !string.IsNullOrEmpty(data)
                 ? JsonConvert.DeserializeObject<IEnumerable<ShopModel>>(data)
                 : null;
@@ -40,19 +40,19 @@ namespace CoffeeShops.Services
 
         public async Task<ShopModel> GetById(string id)
         {
-            var data = await _httpClient.GetStringAsync(_urls.Client + $"/api/v1/shop/{id}");
+            var data = await _httpClient.GetStringAsync(_urls.Shop + $"/api/v1/shop/{id}");
             var shop = !string.IsNullOrEmpty(data) ? JsonConvert.DeserializeObject<ShopModel>(data) : null;
             return shop;
         }
 
         public async Task Remove(string id)
         {
-            await _httpClient.DeleteAsync(_urls.Client + $"/api/v1/shop/{id}");
+            await _httpClient.DeleteAsync(_urls.Shop + $"/api/v1/shop/{id}");
         }
 
         public async Task Update(ShopModel model)
         {
-            await _httpClient.PutAsJsonAsync(_urls.Client + $"/api/v1/shop", model);
+            await _httpClient.PutAsJsonAsync(_urls.Shop + $"/api/v1/shop", model);
         }
     }
 }

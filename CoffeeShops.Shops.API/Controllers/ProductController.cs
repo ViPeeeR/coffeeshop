@@ -20,8 +20,8 @@ namespace CoffeeShops.Shops.API.Controllers
             _productRepository = productRepository;
         }
 
-        [HttpGet("{shopId}")]
-        public async Task<ActionResult<IEnumerable<ShopModel>>> Get(string shopId, [FromQuery]int page, [FromQuery]int size)
+        [HttpGet]
+        public async Task<ActionResult> Get([FromQuery]string shopId, [FromQuery]int page, [FromQuery]int size)
         {
             var products = await _productRepository.GetAll(shopId);
             if (page > 0 && size > 0)
@@ -37,6 +37,23 @@ namespace CoffeeShops.Shops.API.Controllers
                 Price = x.Price,
                 ShopId = x.ShopId
             }).ToList());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get(string id)
+        {
+            var product = await _productRepository.Get(id);
+            if (product != null)
+                return Ok(new ProductModel()
+                {
+                    Id = product.Id,
+                    Price = product.Price,
+                    Name = product.Name,
+                    Description = product.Description,
+                    ShopId = product.ShopId
+                });
+            else
+                return NotFound();
         }
 
         [HttpPost]

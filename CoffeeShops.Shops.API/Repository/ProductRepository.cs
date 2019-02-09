@@ -28,13 +28,13 @@ namespace CoffeeShops.Shops.API.Repository
 
         public async Task<Product> Get(string id)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             return product;
         }
 
         public async Task<IEnumerable<Product>> GetAll(string shopId)
         {
-            var products = await _context.Products.Where(x => x.ShopId == shopId).ToListAsync();
+            var products = await _context.Products.AsNoTracking().Where(x => x.ShopId == shopId).ToListAsync();
             return products;
         }
 
@@ -60,11 +60,6 @@ namespace CoffeeShops.Shops.API.Repository
                 _context.Products.Update(item);
                 await _context.SaveChangesAsync();
             }
-        }
-
-        Task<Product> IRepository<Product>.Add(Product item)
-        {
-            throw new NotImplementedException();
         }
     }
 }

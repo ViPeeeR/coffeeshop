@@ -19,6 +19,7 @@ namespace CoffeeShops.Shops.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .UseUrls("https://localhost:5021", "http://localhost:5020");
     }
 }

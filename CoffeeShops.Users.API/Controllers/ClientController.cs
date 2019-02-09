@@ -78,12 +78,12 @@ namespace CoffeeShops.Users.API.Controllers
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(string id, [FromBody] ClientModel model)
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] ClientModel model)
         {
             var client = new Client()
             {
-                Id = id,
+                Id = model.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 MiddleName = model.MiddleName,

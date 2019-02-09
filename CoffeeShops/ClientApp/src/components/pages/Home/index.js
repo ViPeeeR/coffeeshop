@@ -6,12 +6,23 @@ class Home extends Component {
     render() {
         return (
             <div>
+                <h2>Клиенты</h2>
                 <ul>
                     <li>
-                        <Link to="/create/client">Создать клиента</Link>
+                        <Link to="/clients/create">Создать</Link>
                     </li>
                     <li>
-                        <Link to="/create/shop">Создать магазин</Link>
+                        <Link to="/clients">Просмотр</Link>
+                    </li>
+                </ul>
+
+                <h2>Магазины</h2>
+                <ul>                    
+                    <li>
+                        <Link to="/shops/create">Создать</Link>
+                    </li>
+                    <li>
+                        <Link to="/shops">Просмотр</Link>
                     </li>
                 </ul>
                 <a></a>

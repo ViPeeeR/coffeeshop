@@ -29,6 +29,7 @@ namespace CoffeeShops.Shops.API.Repository
         {
             var shop = await _context.Shops
                 .Include(x => x.Products)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return shop;
@@ -38,6 +39,7 @@ namespace CoffeeShops.Shops.API.Repository
         {
             var shops = await _context.Shops
                 .Include(x => x.Products)
+                .AsNoTracking()
                 .ToListAsync();
 
             return shops;
