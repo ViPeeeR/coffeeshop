@@ -7,6 +7,7 @@ import Shop from './Shop'
 import Home from './Home'
 import Products from './Shop/Products'
 import NewProduct from './Shop/Products/NewProduct'
+import NewOrder from './Order/NewOrder'
 
 import { Container } from './styled'
 
@@ -21,12 +22,15 @@ class Pages extends Component {
                     <Route exact path="/clients" component={Client} />
                     <Route exact path="/clients/create" component={NewClient} />
                     <Route path="/clients/edit/:id" component={NewClient} />
+
                     <Route exact path="/shops" component={Shop} />
                     <Route exact path="/shops/create" component={NewShop} />
                     <Route path="/shops/edit/:id" component={NewShop} />
                     <Route path="/shops/products/list/:shopId" component={Products} />
                     <Route path="/shops/products/create/:shopId" component={NewProduct} />
                     <Route path="/shops/products/edit/:id" component={NewProduct} />
+
+                    <Route path="/orders/create" component={NewOrder} />
                 </Switch>
             </Container>
         );

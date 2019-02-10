@@ -14,6 +14,8 @@ namespace CoffeeShops.Common
 
         public string ShopId { get; set; }
 
+        public ShopModel Shop { get; set; }
+
         public IEnumerable<ProductItemModel> Products { get; set; }
 
         public DateTime Date { get; set; }
