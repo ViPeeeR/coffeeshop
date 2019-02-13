@@ -45,9 +45,15 @@ class NewClient extends Component {
     }
 
     createClient = async event => {
+
         //TODO: вызвать api
         const { values } = this.state
         console.log(values)
+
+        if (!values.firstName || !values.lastName || !values.middleName || !values.phone || !values.birthday) {
+            alert('Заполните все обязательные поля!');
+            return;
+        }
 
         let result = values.id === ''
             ? await apiCreateClient(values)

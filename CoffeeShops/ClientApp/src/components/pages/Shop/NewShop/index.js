@@ -35,6 +35,11 @@ class NewShop extends Component {
         const { values } = this.state
         console.log(values)
 
+        if (!values.name || !values.address || !values.phone) {
+            alert('Заполните все обязательные поля!');
+            return;
+        }
+
         let result = values.id === ''
             ? await apiCreateShop(values)
             : await apiUpdateShop(values);

@@ -11,7 +11,8 @@ class Details extends Component {
         values: {
             dateDelivery: '',
             comment: '',
-            statusPayment: 'paid'
+            statusPayment: 'paid',
+            clientId: ''
         },
         redirect: false
     }
@@ -41,7 +42,7 @@ class Details extends Component {
             statusPayment: values.statusPayment,
             products: order.basket.products,
             shopId: order.shopId,
-            clientId: '308e0521-6694-4080-9a5c-9e915e8de8f3'
+            clientId: values.clientId
         };
 
         console.log(sendData);
@@ -61,7 +62,10 @@ class Details extends Component {
                 {
                     !order.shopId || redirect ? <Redirect to="/orders/create" /> : ''
                 }
-
+                <div>
+                    <div>Клиент</div>
+                    <div><input name="clientId" onChange={this.changeField} /></div>
+                </div>
                 <div>
                     <div>Дата доставки</div>
                     <div><input name="dateDelivery" type="datetime-local" onChange={this.changeField} /></div>

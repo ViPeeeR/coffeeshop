@@ -42,6 +42,12 @@ class NewProducts extends Component {
     createProduct = async event => {
         //TODO: вызвать api
         const { values } = this.state
+
+        if (!values.name || !values.price || !values.description || values.price <= 0) {
+            alert('Заполните все обязательные поля!');
+            return;
+        }
+
         let shopId = this.props.match.params.shopId;
         values.shopId = !shopId ? values.shopId : shopId;
 
