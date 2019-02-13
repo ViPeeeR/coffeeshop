@@ -74,7 +74,7 @@ namespace CoffeeShops.Orders.API.Controllers
                 ClientId = model.ClientId,
                 Comment = model.Comment,
                 Date = model.Date,
-                DateDelivery = model.DateDelivery,
+                DateDelivery = model.DateDelivery ?? DateTime.UtcNow.AddHours(1),
                 ShopId = model.ShopId,
                 StatusOrder = model.StatusOrder,
                 StatusPayment = model.StatusPayment
@@ -96,7 +96,7 @@ namespace CoffeeShops.Orders.API.Controllers
                 ClientId = model.ClientId,
                 Comment = model.Comment,
                 Date = model.Date,
-                DateDelivery = model.DateDelivery,
+                DateDelivery = model.DateDelivery.Value,
                 ShopId = model.ShopId,
                 StatusOrder = model.StatusOrder,
                 StatusPayment = model.StatusPayment

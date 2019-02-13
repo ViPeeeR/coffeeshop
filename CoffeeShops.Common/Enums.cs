@@ -6,16 +6,15 @@ namespace CoffeeShops.Common
 {
     public enum StatusPayment
     {
-        Wait = 0,
-        Paid,
-        Cancel
+        Cash = 0,
+        Paid
     }
 
     public enum StatusOrder
     {
-        WaitPayment = 0,
-        Prepares,
-        Ready
+        Prepares = 0,
+        Ready,
+        Delivered
     }
 
     public enum Sex

@@ -16,6 +16,8 @@ class Item extends Component {
     }
 
     increase = () => {
+        this.props.onSelect(this.props.value, 1);
+
         this.setState((prevstate) => {
             return {
                 count: prevstate.count + 1
@@ -24,9 +26,14 @@ class Item extends Component {
     }
 
     decrease = () => {
+        if (this.state.count === 0)
+            return;
+
+        this.props.onSelect(this.props.value, -1);
+
         this.setState((prevstate) => {
             return {
-                count: prevstate.count == 0 ? 0 : prevstate.count - 1
+                count: prevstate.count - 1
             }
         })
     }

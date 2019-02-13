@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react'
 import axios from 'axios'
 import { withRouter } from 'react-router'
-import { Link } from 'react-router-dom'
 
 import Item from './Item'
 
@@ -10,7 +9,9 @@ import { Container } from './styled'
 class ProductList extends Component {
 
     state = {
-        products: null
+        products: null,
+        selected: 0,
+        amount: 0
     }
 
     async componentWillMount() {
@@ -22,7 +23,7 @@ class ProductList extends Component {
     }
 
     loadData = async () => {
-        let shopId = this.props.match.params.shopId;
+        let shopId = this.props.match.params.shopId || this.props.shop;
 
         return await axios.get(`/api/v1/product?shopId=${shopId}`)
             .then(({ data }) => data);
@@ -36,18 +37,12 @@ class ProductList extends Component {
         this.setState({ products: data });
     }
 
-    increase = () => {
-        this.setState((prevstate) => {
+    onSelectProduct = (value, act) => {
+        this.props.onAddingProduct(act, value.price, value.id);
+        this.setState((prevState) => {
             return {
-                count: prevstate.count + 1
-            }
-        })
-    }
-
-    decrease = () => {
-        this.setState((prevstate) => {
-            return {
-                count: prevstate.count - 1
+                selected: prevState.selected + act,
+                amount: prevState.amount + (act > 0 ? value.price : -value.price)
             }
         })
     }
@@ -59,7 +54,7 @@ class ProductList extends Component {
 
         let productsData = products && products.map((value, index) => {
             return (
-                <Item key={value.id} value={value} index={index + 1} onRemove={this.deleteProduct} admin={admin} client={client} />
+                <Item key={value.id} value={value} index={index + 1} onRemove={this.deleteProduct} admin={admin} client={client} onSelect={this.onSelectProduct} />
             )
         })
 

@@ -18,6 +18,11 @@ class ShopList extends Component {
         this.setState({ shops: data });
     }
 
+    onSelect = (event, id) => {
+        event.preventDefault();
+        this.props.onSelect(id);
+    }
+
     render() {
 
         const { shops } = this.state
@@ -29,7 +34,7 @@ class ShopList extends Component {
                     {
                         client
                             ?
-                            <h3><Link to={`/orders/create/products/${value.id}`}>{index + 1}. Магазин {value.id}</Link></h3>
+                            <h3><a href="2" onClick={(event) => this.onSelect(event, value.id)}>{index + 1}. Магазин {value.id}</a></h3>
                             :
                             <h3>{index + 1}. Магазин {value.id}</h3>
                     }

@@ -20,7 +20,7 @@ namespace CoffeeShops.Common
 
         public DateTime Date { get; set; }
 
-        public DateTime DateDelivery { get; set; }
+        public DateTime? DateDelivery { get; set; }
 
         public string Comment { get; set; }
 
