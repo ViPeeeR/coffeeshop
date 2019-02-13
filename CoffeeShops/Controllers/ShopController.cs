@@ -13,10 +13,13 @@ namespace CoffeeShops.Controllers
     public class ShopController : ControllerBase
     {
         private readonly IShopService _shopService;
+        private readonly IOrderService _orderService;
 
-        public ShopController(IShopService shopService)
+        public ShopController(IShopService shopService,
+            IOrderService orderService)
         {
             _shopService = shopService;
+            _orderService = orderService;
         }
 
         [HttpPost]
@@ -60,6 +63,20 @@ namespace CoffeeShops.Controllers
         {
             var shop = await _shopService.GetById(id);
             return Ok(shop);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(string id)
+        {
+            var orders = await _orderService.GetByShopId(id);
+            foreach (var order in orders)
+            {
+                await _orderService.Remove(order.Id);
+            }
+
+            await _shopService.Remove(id);
+
+            return Ok();
         }
     }
 }

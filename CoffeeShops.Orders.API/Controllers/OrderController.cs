@@ -112,5 +112,43 @@ namespace CoffeeShops.Orders.API.Controllers
             await _orderRepository.Remove(id);
             return Ok();
         }
+
+        [HttpGet("client/{id}")]
+        public async Task<ActionResult<IEnumerable<OrderModel>>> GetByClient(string id)
+        {
+            var orders = await _orderRepository.GetByClientId(id);
+
+            return Ok(orders?.Select(x => new OrderModel()
+            {
+                Id = x.Id,
+                ClientId = x.ClientId,
+                Comment = x.Comment,
+                Date = x.Date,
+                DateDelivery = x.DateDelivery,
+                Products = x.Products?.Select(p => new ProductItemModel { Id = p.Id, ProductId = p.ProductId, Count = p.Count }),
+                ShopId = x.ShopId,
+                StatusOrder = x.StatusOrder,
+                StatusPayment = x.StatusPayment
+            }).ToList());
+        }
+
+        [HttpGet("shop/{id}")]
+        public async Task<ActionResult<IEnumerable<OrderModel>>> GetByShop(string id)
+        {
+            var orders = await _orderRepository.GetByShopId(id);
+
+            return Ok(orders?.Select(x => new OrderModel()
+            {
+                Id = x.Id,
+                ClientId = x.ClientId,
+                Comment = x.Comment,
+                Date = x.Date,
+                DateDelivery = x.DateDelivery,
+                Products = x.Products?.Select(p => new ProductItemModel { Id = p.Id, ProductId = p.ProductId, Count = p.Count }),
+                ShopId = x.ShopId,
+                StatusOrder = x.StatusOrder,
+                StatusPayment = x.StatusPayment
+            }).ToList());
+        }
     }
 }

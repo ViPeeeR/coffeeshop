@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { EditContainer } from './styled';
-import { apiLoadClients } from '../../../api';
+import { apiLoadClients, apiDeleteClient } from '../../../api';
 
 
 class Client extends Component {
@@ -12,11 +12,19 @@ class Client extends Component {
     }
 
     async componentWillMount() {
+        await this.loadData();
+    }
+
+    loadData = async () => {
         let data = await apiLoadClients();
-
-        console.log(data);
-
         this.setState({ clients: data });
+        console.log(data);
+    }
+
+    deleteClient = async (event, id) => {
+        event.preventDefault();
+        await apiDeleteClient(id);
+        await this.loadData();
     }
 
     render() {
@@ -45,6 +53,7 @@ class Client extends Component {
                     </div>
 
                     <EditContainer><Link to={`/clients/edit/${value.id}`}>Редактировать</Link></EditContainer>
+                    <EditContainer><a href="" onClick={(event) => this.deleteClient(event, value.id)}>Удалить</a></EditContainer>
                 </div>
             )
         })

@@ -38,7 +38,7 @@ class OrderList extends Component {
                         <span>Дата доставки: {new Date(value.dateDelivery).toLocaleDateString()}</span>
                     </div>
                     <div>
-                        <span>Статус: {value.statusOrder}</span>
+                        <span>Статус: {value.statusOrder == 0 ? 'Готовится' : 'Курьер в пути'}</span>
                     </div>
                 </div>
             )

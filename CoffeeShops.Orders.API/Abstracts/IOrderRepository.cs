@@ -12,5 +12,9 @@ namespace CoffeeShops.Orders.API.Abstracts
         Task<IEnumerable<Order>> GetAll();
 
         Task<Order> AddProducts(IEnumerable<ProductItem> productItems);
+
+        Task<IEnumerable<Order>> GetByClientId(string id);
+
+        Task<IEnumerable<Order>> GetByShopId(string id);
     }
 }

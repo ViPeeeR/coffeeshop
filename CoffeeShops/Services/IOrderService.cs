@@ -14,6 +14,10 @@ namespace CoffeeShops.Services
 
         Task<OrderModel> GetById(string id);
 
+        Task<IEnumerable<OrderModel>> GetByClientId(string id);
+
+        Task<IEnumerable<OrderModel>> GetByShopId(string id);
+
         Task<IEnumerable<OrderModel>> GetAll(int page, int size);
 
         Task Remove(string id);

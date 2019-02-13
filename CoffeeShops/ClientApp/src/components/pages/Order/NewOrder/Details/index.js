@@ -12,7 +12,8 @@ class Details extends Component {
             dateDelivery: '',
             comment: '',
             statusPayment: 'paid'
-        }
+        },
+        redirect: false
     }
 
     goPay = () => {
@@ -45,17 +46,20 @@ class Details extends Component {
 
         console.log(sendData);
         await apiCreateOrder(sendData);
+
+        this.setState({ redirect : true})
     }
 
     render() {
 
         const { order } = this.props
+        const { redirect } = this.state
 
         return (
             <Container>
 
                 {
-                    !order.shopId ? <Redirect to="/orders/create" /> : ''
+                    !order.shopId || redirect ? <Redirect to="/orders/create" /> : ''
                 }
 
                 <div>

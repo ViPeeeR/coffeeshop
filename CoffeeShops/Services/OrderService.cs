@@ -39,11 +39,31 @@ namespace CoffeeShops.Services
             return orders;
         }
 
+        public async Task<IEnumerable<OrderModel>> GetByClientId(string id)
+        {
+            var data = await _httpClient.GetStringAsync(_urls.Order + $"/api/v1/order/client/{id}");
+            var orders = !string.IsNullOrEmpty(data)
+                ? JsonConvert.DeserializeObject<IEnumerable<OrderModel>>(data)
+                : null;
+
+            return orders;
+        }
+
         public async Task<OrderModel> GetById(string id)
         {
             var data = await _httpClient.GetStringAsync(_urls.Order + $"/api/v1/order/{id}");
             var order = !string.IsNullOrEmpty(data) ? JsonConvert.DeserializeObject<OrderModel>(data) : null;
             return order;
+        }
+
+        public async Task<IEnumerable<OrderModel>> GetByShopId(string id)
+        {
+            var data = await _httpClient.GetStringAsync(_urls.Order + $"/api/v1/order/shop/{id}");
+            var orders = !string.IsNullOrEmpty(data)
+                ? JsonConvert.DeserializeObject<IEnumerable<OrderModel>>(data)
+                : null;
+
+            return orders;
         }
 
         public async Task Remove(string id)

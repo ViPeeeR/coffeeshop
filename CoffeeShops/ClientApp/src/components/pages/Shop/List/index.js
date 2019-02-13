@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { Container, ControlPanel, Block } from './styled'
-import { apiLoadShops } from '../../../../api';
+import { apiLoadShops, apiDeleteShop } from '../../../../api';
 
 class ShopList extends Component {
 
@@ -11,16 +11,24 @@ class ShopList extends Component {
     }
 
     async componentWillMount() {
+        await this.loadData();
+    }
+
+    loadData = async () => {
         let data = await apiLoadShops();
-
-        console.log(data);
-
         this.setState({ shops: data });
+        console.log(data);
     }
 
     onSelect = (event, id) => {
         event.preventDefault();
         this.props.onSelect(id);
+    }
+
+    deleteShop = async (event, id) => {
+        event.preventDefault();
+        await apiDeleteShop(id);
+        await this.loadData();
     }
 
     render() {
@@ -57,6 +65,7 @@ class ShopList extends Component {
                                 <Block><Link to={`/shops/edit/${value.id}`}>Редактировать</Link></Block>
                                 <Block><Link to={`/shops/products/list/${value.id}`}>Список товаров</Link></Block>
                                 <Block><Link to={`/shops/products/create/${value.id}`}>Добавить товар</Link></Block>
+                                <Block><a href="" onClick={(event) => this.deleteShop(event, value.id)}>Удалить</a></Block>
                             </ControlPanel>
                             : ''
                     }

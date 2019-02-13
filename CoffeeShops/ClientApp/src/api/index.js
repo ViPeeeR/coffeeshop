@@ -66,3 +66,11 @@ export const apiUpdateProduct = async (values) => await axios
 export const apiDeleteProduct = async (id) => await axios
     .delete(`/api/v1/product/${id}`)
     .catch(ex => { alert(ex); return ex; });
+
+export const apiDeleteClient = async (id) => await axios
+    .delete(`/api/v1/client/${id}`)
+    .catch(ex => { alert(ex); return ex; });
+
+export const apiDeleteShop = async (id) => await axios
+    .delete(`/api/v1/shop/${id}`)
+    .catch(ex => { alert(ex); return ex; });

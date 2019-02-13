@@ -45,6 +45,20 @@ namespace CoffeeShops.Orders.API.Repository
             return orders;
         }
 
+        public async Task<IEnumerable<Order>> GetByClientId(string id)
+        {
+            var orders = await _context.Orders.Include(x => x.Products)
+                .Where(x => x.ClientId == id).ToListAsync();
+            return orders;
+        }
+
+        public async Task<IEnumerable<Order>> GetByShopId(string id)
+        {
+            var orders = await _context.Orders.Include(x => x.Products)
+               .Where(x => x.ShopId == id).ToListAsync();
+            return orders;
+        }
+
         public async Task Remove(string id)
         {
             var order = await Get(id);
@@ -52,6 +66,7 @@ namespace CoffeeShops.Orders.API.Repository
                 throw new Exception("Order not found!");
 
             _context.Orders.Remove(order);
+            _context.Products.RemoveRange(order.Products);
             await _context.SaveChangesAsync();
         }
 
