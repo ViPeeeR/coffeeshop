@@ -41,7 +41,7 @@ namespace CoffeeShops.Orders.API.Repository
 
         public async Task<IEnumerable<Order>> GetAll()
         {
-            var orders = await _context.Orders.ToListAsync();
+            var orders = await _context.Orders.Include(x => x.Products).ToListAsync();
             return orders;
         }
 

@@ -22,6 +22,15 @@ namespace CoffeeShops.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody]ClientModel model)
         {
+            if (string.IsNullOrEmpty(model.FirstName) ||
+                string.IsNullOrEmpty(model.LastName) ||
+                string.IsNullOrEmpty(model.MiddleName) ||
+                string.IsNullOrEmpty(model.Phone) ||
+                model.Birthday == DateTime.MinValue)
+            {
+                return BadRequest("Не заполнены все обязательные поля");
+            }
+
             await _clientService.Create(model);
             return Ok();
         }
@@ -29,6 +38,15 @@ namespace CoffeeShops.Controllers
         [HttpPut]
         public async Task<ActionResult> Update([FromBody]ClientModel model)
         {
+            if (string.IsNullOrEmpty(model.FirstName) ||
+                string.IsNullOrEmpty(model.LastName) ||
+                string.IsNullOrEmpty(model.MiddleName) ||
+                string.IsNullOrEmpty(model.Phone) ||
+                model.Birthday == DateTime.MinValue)
+            {
+                return BadRequest("Не заполнены все обязательные поля");
+            }
+
             await _clientService.Update(model);
             return Ok();
         }

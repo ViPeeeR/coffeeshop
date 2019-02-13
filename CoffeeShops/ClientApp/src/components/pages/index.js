@@ -8,6 +8,7 @@ import Home from './Home'
 import Products from './Shop/Products'
 import NewProduct from './Shop/Products/NewProduct'
 import NewOrder from './Order/NewOrder'
+import Order from './Order'
 
 import { Container } from './styled'
 
@@ -31,6 +32,7 @@ class Pages extends Component {
                     <Route path="/shops/products/edit/:id" component={NewProduct} />
 
                     <Route path="/orders/create" component={NewOrder} />
+                    <Route path="/orders" component={Order} />
                 </Switch>
             </Container>
         );

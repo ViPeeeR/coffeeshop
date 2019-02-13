@@ -26,6 +26,7 @@ class NewClient extends Component {
         if (parId) {
             let data = await axios.get(`/api/v1/client/${parId}`)
                 .then(({ data }) => data);
+
             console.log(data);
             data.birthday = data.birthday && data.birthday !== '' ?
                 data.birthday.substr(0, data.birthday.indexOf('T')) : '';

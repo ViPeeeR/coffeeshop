@@ -36,7 +36,7 @@ namespace CoffeeShops.Orders.API.Controllers
                 Comment = x.Comment,
                 Date = x.Date,
                 DateDelivery = x.DateDelivery,
-                Products = x.Products.Select(p => new ProductItemModel { Id = p.Id, ProductId = p.ProductId, Count = p.Count }),
+                Products = x.Products?.Select(p => new ProductItemModel { Id = p.Id, ProductId = p.ProductId, Count = p.Count }),
                 ShopId = x.ShopId,
                 StatusOrder = x.StatusOrder,
                 StatusPayment = x.StatusPayment
