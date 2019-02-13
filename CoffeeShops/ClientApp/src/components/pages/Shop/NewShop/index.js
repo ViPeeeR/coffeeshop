@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Redirect } from 'react-router'
 
 import { Container } from './styled'
+import { apiLoadShop, apiCreateShop, apiUpdateShop } from '../../../../api';
 
 
 class NewShop extends Component {
@@ -22,8 +23,7 @@ class NewShop extends Component {
         let parId = this.props.match.params.id;
 
         if (parId) {
-            let data = await axios.get(`/api/v1/shop/${parId}`)
-                .then(({ data }) => data);
+            let data = await apiLoadShop(parId);
 
             console.log(data);
             this.setState({ values: data });
@@ -36,8 +36,8 @@ class NewShop extends Component {
         console.log(values)
 
         let result = values.id === ''
-            ? await axios.post('/api/v1/shop', values)
-            : await axios.put('/api/v1/shop', values);
+            ? await apiCreateShop(values)
+            : await apiUpdateShop(values);
 
         if (result.status === 200)
             this.setState({ redirect: true });

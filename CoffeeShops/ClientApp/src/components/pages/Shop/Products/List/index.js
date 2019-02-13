@@ -5,6 +5,7 @@ import { withRouter } from 'react-router'
 import Item from './Item'
 
 import { Container } from './styled'
+import { apiLoadProducts, apiDeleteProduct } from '../../../../../api';
 
 class ProductList extends Component {
 
@@ -25,14 +26,13 @@ class ProductList extends Component {
     loadData = async () => {
         let shopId = this.props.match.params.shopId || this.props.shop;
 
-        return await axios.get(`/api/v1/product?shopId=${shopId}`)
-            .then(({ data }) => data);
+        return await apiLoadProducts(shopId);
     }
 
     deleteProduct = async (event, id) => {
         event.preventDefault();
 
-        await axios.delete(`/api/v1/product/${id}`);
+        await apiDeleteProduct(id);
         let data = await this.loadData();
         this.setState({ products: data });
     }

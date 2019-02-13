@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { Container, ControlPanel, Block } from './styled'
+import { apiLoadShops } from '../../../../api';
 
 class ShopList extends Component {
 
@@ -10,8 +11,7 @@ class ShopList extends Component {
     }
 
     async componentWillMount() {
-        let data = await axios.get('/api/v1/shop')
-            .then(({ data }) => data);
+        let data = await apiLoadShops();
 
         console.log(data);
 

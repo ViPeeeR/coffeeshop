@@ -9,10 +9,6 @@ class Shop extends Component {
         toProducts: false
     }
 
-    componentWillMount() {
-        console.log("я жив")
-    }
-
     onSelect = (id) => {
         this.props.onSelect(id);
         this.setState({ toProducts: true })

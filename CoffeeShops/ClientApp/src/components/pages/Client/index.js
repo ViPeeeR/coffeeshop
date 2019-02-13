@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { EditContainer } from './styled';
+import { apiLoadClients } from '../../../api';
 
 
 class Client extends Component {
@@ -11,8 +12,7 @@ class Client extends Component {
     }
 
     async componentWillMount() {
-        let data = await axios.get('/api/v1/client')
-            .then(({ data }) => data);
+        let data = await apiLoadClients();
 
         console.log(data);
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import axios from 'axios'
 import { Container } from './styled'
+import { apiLoadProduct, apiCreateProduct, apiUpdateProduct } from '../../../../../api';
 
 
 class NewProducts extends Component {
@@ -22,8 +23,7 @@ class NewProducts extends Component {
         let id = this.props.match.params.id;
 
         if (id) {
-            let data = await axios.get(`/api/v1/product/${id}`)
-                .then(({ data }) => data);
+            let data = await apiLoadProduct(id);
             console.log(data);
             this.setState({ values: data });
         }
@@ -48,8 +48,8 @@ class NewProducts extends Component {
         console.log(values)
 
         let result = values.id === ''
-            ? await axios.post('/api/v1/product', values)
-            : await axios.put('/api/v1/product', values);
+            ? await apiCreateProduct(values)
+            : await apiUpdateProduct(values);
 
         if (result.status === 200)
             this.setState({ redirect: true });

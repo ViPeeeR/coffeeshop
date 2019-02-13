@@ -2,6 +2,7 @@
 import axios from 'axios'
 
 import { Container } from './styled'
+import { apiLoadOrders } from '../../../../api';
 
 class OrderList extends Component {
 
@@ -10,9 +11,7 @@ class OrderList extends Component {
     }
 
     async componentWillMount() {
-        let data = await axios.get('/api/v1/order')
-            .then(({ data }) => data);
-
+        let data = await apiLoadOrders();
         console.log(data);
 
         this.setState({ orders: data });

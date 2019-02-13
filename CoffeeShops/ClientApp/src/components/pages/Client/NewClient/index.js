@@ -4,6 +4,7 @@ import { Redirect } from 'react-router'
 import axios from 'axios'
 
 import { Container } from './styled'
+import { apiLoadClient, apiCreateClient, apiUpdateClient } from '../../../../api';
 
 class NewClient extends Component {
 
@@ -24,8 +25,7 @@ class NewClient extends Component {
         let parId = this.props.match.params.id;
 
         if (parId) {
-            let data = await axios.get(`/api/v1/client/${parId}`)
-                .then(({ data }) => data);
+            let data = await apiLoadClient(parId);
 
             console.log(data);
             data.birthday = data.birthday && data.birthday !== '' ?
@@ -50,8 +50,8 @@ class NewClient extends Component {
         console.log(values)
 
         let result = values.id === ''
-            ? await axios.post('/api/v1/client', values)
-            : await axios.put('/api/v1/client', values);
+            ? await apiCreateClient(values)
+            : await apiUpdateClient(values);
 
         if (result.status === 200)
             this.setState({ redirect: true });

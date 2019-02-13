@@ -3,6 +3,7 @@ import { Redirect } from 'react-router'
 import axios from 'axios'
 
 import { Container } from './styled'
+import { apiCreateOrder } from '../../../../../api';
 
 class Details extends Component {
 
@@ -43,8 +44,7 @@ class Details extends Component {
         };
 
         console.log(sendData);
-        await axios.post('/api/v1/order', sendData)
-
+        await apiCreateOrder(sendData);
     }
 
     render() {
