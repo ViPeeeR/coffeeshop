@@ -12,5 +12,7 @@ namespace CoffeeShops.Infrustructure
         public string Shop { get; set; }
 
         public string Order { get; set; }
+
+        public string Session { get; set; }
     }
 }
