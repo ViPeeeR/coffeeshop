@@ -7,6 +7,7 @@ import history from './history'
 
 import App from './App';
 import './index.css';
+import './bootstrap.css';
 
 if (localStorage.getItem('cs-token-access')) {
     setAuthToken(localStorage.getItem('cs-token-access'));

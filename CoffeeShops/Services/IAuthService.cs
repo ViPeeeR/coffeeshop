@@ -1,4 +1,5 @@
 ﻿using CoffeeShops.Common;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,12 @@ namespace CoffeeShops.Services
         Task<AuthenticateModel> Login(string clientId, string clientSecret, string code);
 
         Task<AuthenticateModel> Refresh(AuthenticateModel model);
+
+        Task<bool> Validate(AuthenticateModel model);
+
+        Task<bool> Validate(HttpRequest request);
+
+        Task<bool> Validate(string token);
+
     }
 }

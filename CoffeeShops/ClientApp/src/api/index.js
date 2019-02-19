@@ -1,4 +1,5 @@
 ﻿import axios from 'axios'
+import { setAuthToken } from '../axiosExtensions';
 
 export const apiLoadClient = async (id) => await axios
     .get(`/api/v1/client/${id}`)
@@ -76,3 +77,13 @@ export const apiDeleteShop = async (id) => await axios
     .catch(ex => { alert(ex); return ex; });
 
 // TODO: запрос access_token и refresh_token
+
+export const apiLogin = async (data) => await axios
+    .post(`/api/v1/auth/login`, data)
+    .then(( response ) => {
+        const { accessToken, refreshToken } = response.data;
+        localStorage.setItem('cs-token-access', accessToken);
+        localStorage.setItem('cs-token-refresh', refreshToken);
+        setAuthToken(accessToken);
+        return response;
+    })

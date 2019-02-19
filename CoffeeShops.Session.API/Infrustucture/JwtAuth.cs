@@ -59,7 +59,7 @@ namespace CoffeeShops.Session.API.Infrastructure
 
             var accessToken = new JwtSecurityTokenHandler().WriteToken(jwt);
             var refToken = new RefreshToken() { Value = Guid.NewGuid().ToString(), Expiration = DateTime.UtcNow.Add(TimeSpan.FromSeconds(_config.LifeSpan)).Second };
-            var refreshToken = Base64Helper.Base64Encode(refToken.ToString());
+            var refreshToken = Base64Helper.Base64Encode(refToken.ToJson());
 
             _cacheManager.SetCache(refreshToken, user?.Login ?? "<empty>");
 

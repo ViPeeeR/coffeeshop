@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CoffeeShops.Common;
@@ -14,17 +15,23 @@ namespace CoffeeShops.Controllers
     {
         private readonly IClientService _clientService;
         private readonly IOrderService _orderService;
+        private readonly IAuthService _authService;
 
         public ClientController(IClientService clientService,
-            IOrderService orderService)
+            IOrderService orderService,
+            IAuthService authService)
         {
             _clientService = clientService;
             _orderService = orderService;
+            _authService = authService;
         }
 
         [HttpPost]
         public async Task<ActionResult> Create([FromBody]ClientModel model)
         {
+            if (!await _authService.Validate(Request))
+                return Unauthorized();
+
             if (string.IsNullOrEmpty(model.FirstName) ||
                 string.IsNullOrEmpty(model.LastName) ||
                 string.IsNullOrEmpty(model.MiddleName) ||
@@ -41,6 +48,9 @@ namespace CoffeeShops.Controllers
         [HttpPut]
         public async Task<ActionResult> Update([FromBody]ClientModel model)
         {
+            if (!await _authService.Validate(Request))
+                return Unauthorized();
+
             if (string.IsNullOrEmpty(model.FirstName) ||
                 string.IsNullOrEmpty(model.LastName) ||
                 string.IsNullOrEmpty(model.MiddleName) ||
@@ -57,6 +67,9 @@ namespace CoffeeShops.Controllers
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery]int page, [FromQuery]int size)
         {
+            if (!await _authService.Validate(Request))
+                return Unauthorized();
+
             var clients = await _clientService.GetAll(0, 0);
             return Ok(clients);
         }
@@ -64,6 +77,9 @@ namespace CoffeeShops.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(string id)
         {
+            if (!await _authService.Validate(Request))
+                return Unauthorized();
+
             var client = await _clientService.GetById(id);
             return Ok(client);
         }
@@ -71,6 +87,9 @@ namespace CoffeeShops.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id)
         {
+            if (!await _authService.Validate(Request))
+                return Unauthorized();
+
             var orders = await _orderService.GetByClientId(id);
             foreach (var order in orders)
             {

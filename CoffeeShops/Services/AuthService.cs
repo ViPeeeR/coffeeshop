@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CoffeeShops.Common;
 using CoffeeShops.Infrustructure;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -67,6 +68,30 @@ namespace CoffeeShops.Services
                 return await data.Content.ReadAsAsync(typeof(AuthenticateModel)) as AuthenticateModel;
             }
             return null;
+        }
+
+        public async Task<bool> Validate(HttpRequest request)
+        {
+            var header = request.Headers["Authorization"];
+            var token = header[0]?.Replace("Bearer ", "");
+            if (string.IsNullOrEmpty(token))
+                return false;
+
+            return await Validate(token);
+        }
+
+        public async Task<bool> Validate(AuthenticateModel model)
+        {
+            var data = await _httpClient.PostAsJsonAsync(_urls.Session + $"/api/v1/session/verify", model);
+            if (data.IsSuccessStatusCode)
+                return true;
+            return false;
+        }
+
+        public async Task<bool> Validate(string token)
+        {
+            var model = new AuthenticateModel() { AccessToken = token };
+            return await Validate(model);
         }
     }
 }

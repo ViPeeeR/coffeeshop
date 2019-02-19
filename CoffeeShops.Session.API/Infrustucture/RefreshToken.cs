@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,18 +14,18 @@ namespace CoffeeShops.Session.API.Infrustucture
 
         public RefreshToken(string serialized)
         {
-            var values = serialized.Split(';');
-            Value = values[0];
-            Expiration = int.Parse(values[1]);
+            var obj = JsonConvert.DeserializeObject<RefreshToken>(serialized);
+            Value = obj.Value;
+            Expiration = obj.Expiration;
         }
 
         public string Value { get; set; }
 
         public int Expiration { get; set; }
 
-        public override string ToString()
+        public string ToJson()
         {
-            return $"{Value};{Expiration}";
+            return JsonConvert.SerializeObject(this);
         }
     }
 }
