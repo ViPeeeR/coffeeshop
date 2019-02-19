@@ -74,3 +74,5 @@ export const apiDeleteClient = async (id) => await axios
 export const apiDeleteShop = async (id) => await axios
     .delete(`/api/v1/shop/${id}`)
     .catch(ex => { alert(ex); return ex; });
+
+// TODO: запрос access_token и refresh_token

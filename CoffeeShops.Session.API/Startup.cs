@@ -2,6 +2,7 @@
 using CoffeeShops.Session.API.Context;
 using CoffeeShops.Session.API.Infrastructure;
 using CoffeeShops.Session.API.Infrustucture;
+using CoffeeShops.Session.API.Infrustucture.Providers;
 using CoffeeShops.Session.API.Infrustucture.Redis;
 using CoffeeShops.Session.API.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -41,9 +42,10 @@ namespace CoffeeShops.Session.API
 
             services.Configure<JwtSecurityConfig>(Configuration.GetSection("JwtSecurity"));
             services.Configure<OAuthConfig>(Configuration.GetSection("OAuth"));
-            services.AddHttpClient<IJwtAuth, JwtAuth>();
-            services.AddHttpClient<ICacheManager, CacheManager>();
-            services.AddHttpClient<IUserRepository, UserRepository>();
+            services.AddTransient<ICacheManager, CacheManager>();
+            services.AddTransient<IPasswordProvider, PasswordProvider>();
+            services.AddTransient<IJwtAuth, JwtAuth>();
+            services.AddTransient<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,7 +69,6 @@ namespace CoffeeShops.Session.API
                 }
             }
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

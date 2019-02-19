@@ -31,6 +31,7 @@ namespace CoffeeShops
             services.AddHttpClient<IProductService, ProductService>();
             services.AddHttpClient<IShopService, ShopService>();
             services.AddHttpClient<IOrderService, OrderService>();
+            services.AddHttpClient<IAuthService, AuthService>();
 
             services.AddSpaStaticFiles(configuration =>
             {
