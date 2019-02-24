@@ -27,6 +27,27 @@ namespace CoffeeShops.Controllers
             return Ok(token);
         }
 
+        [HttpGet("[action]")]
+        public async Task<ActionResult> AuthCode([FromQuery]string clientId)
+        {
+            var url = await _authService.AuthCode(clientId);
+            return Ok("http://example.ru" + url);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult> LoginApp([FromQuery]string clientId, [FromQuery]string clientSecret, [FromQuery]string code)
+        {
+            var token = await _authService.Login(clientId, clientSecret, code);
+            return Ok(token);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult> Refresh([FromBody]string refreshToken)
+        {
+            var token = await _authService.Refresh(new AuthenticateModel { RefreshToken = refreshToken });
+            return Ok(token);
+        }
+
         [HttpPost("[action]")]
         public async Task<ActionResult<AuthenticateModel>> Register([FromBody]RegisterModel model)
         {

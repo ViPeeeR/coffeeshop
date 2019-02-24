@@ -53,11 +53,12 @@ namespace CoffeeShops.Services
 
         public async Task<AuthenticateModel> Login(string clientId, string clientSecret, string code)
         {
-            var data = await _httpClient.GetStringAsync(_urls.Session + $"/api/v1/session/OAuth?clientId={clientId}&clientSecret={clientSecret}&code={code}");
-            var token = !string.IsNullOrEmpty(data)
-                ? JsonConvert.DeserializeObject<AuthenticateModel>(data)
-                : null;
-            return token;
+            var data = await _httpClient.PostAsJsonAsync(_urls.Session + $"/api/v1/session/OAuth?clientId={clientId}&clientSecret={clientSecret}&code={code}", new object());
+            if (data.IsSuccessStatusCode)
+            {
+                return await data.Content.ReadAsAsync(typeof(AuthenticateModel)) as AuthenticateModel;
+            }
+            return null;
         }
 
         public async Task<AuthenticateModel> Refresh(AuthenticateModel model)

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CoffeeShops.Session.API.Infrustucture.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace CoffeeShops.Session.API.Infrustucture
 
         public RefreshToken(string serialized)
         {
-            var obj = JsonConvert.DeserializeObject<RefreshToken>(serialized);
+            var obj = JsonConvert.DeserializeObject<RefreshToken>(Base64Helper.Base64Decode(serialized));
             Value = obj.Value;
             Expiration = obj.Expiration;
         }

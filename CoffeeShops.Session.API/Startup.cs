@@ -45,6 +45,7 @@ namespace CoffeeShops.Session.API
             services.AddTransient<ICacheManager, CacheManager>();
             services.AddTransient<IPasswordProvider, PasswordProvider>();
             services.AddTransient<IJwtAuth, JwtAuth>();
+            services.AddTransient<IOAuth, OAuth>();
             services.AddTransient<IUserRepository, UserRepository>();
         }
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CoffeeShops.Common;
 using CoffeeShops.Shops.API.Abstracts;
 using CoffeeShops.Shops.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeShops.Shops.API.Controllers

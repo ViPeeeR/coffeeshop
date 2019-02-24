@@ -6,14 +6,8 @@ namespace CoffeeShops.Session.API.Infrastructure
 {
     public interface IJwtAuth
     {
-        AuthenticateModel CreateToken(User user);
+        string Create(User user);
 
-        bool ValidateAccess(string token);
-
-        Task<AuthenticateModel> ValidateRefresh(string token);
-
-        string AuthorizationCode(string clientId);
-
-        Task<AuthenticateModel> CreateToken(string code, string clientSecret, string clientId);
+        bool Validate(string token);
     }
 }

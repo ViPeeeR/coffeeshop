@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CoffeeShops.Common;
 using CoffeeShops.Session.API.Abstracts;
 using CoffeeShops.Session.API.Infrastructure;
+using CoffeeShops.Session.API.Infrustucture;
 using CoffeeShops.Session.API.Infrustucture.Providers;
 using CoffeeShops.Session.API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,16 +21,19 @@ namespace CoffeeShops.Session.API.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IJwtAuth _jwtAuth;
         private readonly IPasswordProvider _passwordProvider;
+        private readonly IOAuth _oauth;
 
         public SessionController(ILogger<SessionController> logger,
             IUserRepository userRepository,
             IJwtAuth jwtAuth,
-            IPasswordProvider passwordProvider)
+            IPasswordProvider passwordProvider,
+            IOAuth oauth)
         {
             _logger = logger;
             _userRepository = userRepository;
             _jwtAuth = jwtAuth;
             _passwordProvider = passwordProvider;
+            _oauth = oauth;
         }
 
         [HttpPost("[action]")]
@@ -38,7 +42,7 @@ namespace CoffeeShops.Session.API.Controllers
             var user = await _userRepository.GetByLogin(model.Login);
             if (_passwordProvider.VerifyHashedPassword(user.PassHash, user.ContactId, model.Password))
             {
-                var token = _jwtAuth.CreateToken(user);
+                var token = _oauth.CreateToken(user);
                 return Ok(token);
             }
 
@@ -57,7 +61,7 @@ namespace CoffeeShops.Session.API.Controllers
             };
 
             user = await _userRepository.Add(user);
-            var token = _jwtAuth.CreateToken(user);
+            var token = _oauth.CreateToken(user);
 
             return Ok(token);
         }
@@ -65,7 +69,7 @@ namespace CoffeeShops.Session.API.Controllers
         [HttpPost("[action]")]
         public ActionResult Verify([FromBody]AuthenticateModel model)
         {
-            if (_jwtAuth.ValidateAccess(model.AccessToken))
+            if (_jwtAuth.Validate(model.AccessToken))
                 return Ok();
 
             return Forbid();
@@ -74,7 +78,7 @@ namespace CoffeeShops.Session.API.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult<AuthenticateModel>> Refresh([FromBody]AuthenticateModel model)
         {
-            var token = await _jwtAuth.ValidateRefresh(model.RefreshToken);
+            var token = await _oauth.ValidateRefresh(model.RefreshToken);
             if (token != null)
                 return Ok(token);
 
@@ -84,17 +88,17 @@ namespace CoffeeShops.Session.API.Controllers
         [HttpGet("[action]")]
         public ActionResult<string> Code([FromQuery]string clientId)
         {
-            var code = _jwtAuth.AuthorizationCode(clientId);
+            var code = _oauth.AuthorizationCode(clientId);
             if (code != null)
                 return Ok(code);
 
             return Forbid();
         }
 
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public async Task<ActionResult<AuthenticateModel>> OAuth([FromQuery]string clientId, [FromQuery]string code, [FromQuery]string clientSecret)
         {
-            var token = await _jwtAuth.CreateToken(code, clientSecret, clientId);
+            var token = await _oauth.CreateToken(code, clientSecret, clientId);
             if (token != null)
                 return Ok(token);
 

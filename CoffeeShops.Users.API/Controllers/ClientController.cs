@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CoffeeShops.Common;
 using CoffeeShops.Users.API.Abstracts;
 using CoffeeShops.Users.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CoffeeShops.Users.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClientController : ControllerBase
     {
         private readonly IClientRepository _clientRepository;
+        private readonly ILogger<ClientController> _logger;
 
-        public ClientController(IClientRepository clientRepository)
+        public ClientController(IClientRepository clientRepository, ILogger<ClientController> logger)
         {
             _clientRepository = clientRepository;
+            _logger = logger;
         }
 
         [HttpGet]

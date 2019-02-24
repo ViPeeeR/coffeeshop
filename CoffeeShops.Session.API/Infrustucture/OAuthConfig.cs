@@ -10,5 +10,7 @@ namespace CoffeeShops.Session.API.Infrustucture
         public string ClientId { get; set; }
 
         public string ClientSecret { get; set; }
+
+        public int LifeSpan { get; set; }
     }
 }
