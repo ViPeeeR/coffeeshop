@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoffeeShops.Common;
+using CoffeeShops.Infrustructure;
 using CoffeeShops.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,12 +30,18 @@ namespace CoffeeShops.Controllers
                 string.IsNullOrEmpty(model.Name) ||
                 string.IsNullOrEmpty(model.Phone))
             {
-                return BadRequest("Не заполнены все обязательные поля!");
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = "Не заполнены все обязательные поля" });
             }
 
-
-            await _shopService.Create(model);
-            return Ok();
+            try
+            {
+                await _shopService.Create(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = ex.Message });
+            }
         }
 
         [HttpPut]
@@ -44,39 +51,67 @@ namespace CoffeeShops.Controllers
                 string.IsNullOrEmpty(model.Name) ||
                 string.IsNullOrEmpty(model.Phone))
             {
-                return BadRequest("Не заполнены все обязательные поля!");
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = "Не заполнены все обязательные поля" });
             }
 
-            await _shopService.Update(model);
-            return Ok();
+            try
+            {
+                await _shopService.Update(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = ex.Message });
+            }
         }
 
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery]int page, [FromQuery]int size)
         {
-            var shops = await _shopService.GetAll(0, 0);
-            return Ok(shops);
+            try
+            {
+                var shops = await _shopService.GetAll(0, 0);
+                return Ok(shops);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = ex.Message });
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(string id)
         {
-            var shop = await _shopService.GetById(id);
-            return Ok(shop);
+            try
+            {
+                var shop = await _shopService.GetById(id);
+                return Ok(shop);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = ex.Message });
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id)
         {
-            var orders = await _orderService.GetByShopId(id);
-            foreach (var order in orders)
+            try
             {
-                await _orderService.Remove(order.Id);
+                var orders = await _orderService.GetByShopId(id);
+                foreach (var order in orders)
+                {
+                    await _orderService.Remove(order.Id);
+                }
+
+                await _shopService.Remove(id);
+
+                return Ok();
             }
-
-            await _shopService.Remove(id);
-
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = ex.Message });
+            }
         }
     }
 }

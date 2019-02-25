@@ -24,6 +24,7 @@ namespace CoffeeShops
             services.AddLogging();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddControllersAsServices();
 
             services.Configure<UrlHosts>(Configuration.GetSection("Urls"));
@@ -47,7 +48,7 @@ namespace CoffeeShops
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
             }
             else
             {

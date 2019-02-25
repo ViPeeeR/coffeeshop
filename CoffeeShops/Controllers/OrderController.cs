@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoffeeShops.Common;
+using CoffeeShops.Infrustructure;
 using CoffeeShops.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,12 +33,19 @@ namespace CoffeeShops.Controllers
                 string.IsNullOrEmpty(model.ClientId) ||
                 model.Products.Count() == 0)
             {
-                return BadRequest("Не заполнены обязательные поля!");
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = "Не заполнены все обязательные поля" });
             }
 
-            model.Date = DateTime.UtcNow;
-            await _orderService.Create(model);
-            return Ok();
+            try
+            {
+                model.Date = DateTime.UtcNow;
+                await _orderService.Create(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = ex.Message });
+            }
         }
 
         [HttpPut]
@@ -49,34 +57,67 @@ namespace CoffeeShops.Controllers
                 !model.DateDelivery.HasValue ||
                 model.Date == DateTime.MinValue)
             {
-                return BadRequest("Не заполнены обязательные поля!");
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = "Не заполнены все обязательные поля" });
             }
 
-            await _orderService.Update(model);
-            return Ok();
+            try
+            {
+                await _orderService.Update(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = ex.Message });
+            }
         }
 
         [HttpGet]
         public async Task<ActionResult> Get([FromQuery]int page, [FromQuery]int size)
         {
-            var orders = await _orderService.GetAll(0, 0);
-
-            foreach (var order in orders)
+            try
             {
-                order.Client = await _clientService.GetById(order.ClientId);
-                order.Shop = await _shopService.GetById(order.ShopId);
-            }
+                var orders = await _orderService.GetAll(0, 0);
 
-            return Ok(orders);
+                foreach (var order in orders)
+                {
+                    await GetOrderDetails(order);
+                }
+
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = ex.Message });
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(string id)
         {
-            var order = await _orderService.GetById(id);
-            order.Client = await _clientService.GetById(order.ClientId);
-            order.Shop = await _shopService.GetById(order.ShopId);
-            return Ok(order);
+            try
+            {
+                var order = await _orderService.GetById(id);
+                await GetOrderDetails(order);
+                return Ok(order);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseError() { ErrorCode = 400, Message = ex.Message });
+            }
+        }
+
+        private async Task GetOrderDetails(OrderModel order)
+        {
+            try
+            {
+                order.Client = await _clientService.GetById(order.ClientId);
+            }
+            catch { }
+            try
+            {
+                order.Shop = await _shopService.GetById(order.ShopId);
+            }
+            catch { }
         }
     }
 }

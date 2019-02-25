@@ -22,14 +22,15 @@ class OrderList extends Component {
         const { orders } = this.state
 
         let orderData = orders && orders.map((value, index) => {
+            const { shop, client } = value;
             return (
                 <div key={value.id}>
                     <h3>{index + 1}. Заказ {value.id}</h3>
                     <div>
-                        <span>Клиент: {value.client.lastName} {value.client.firstName} {value.client.middleName}</span>
+                        <span>Клиент: {client && client.lastName} {client && client.firstName} {client &&  client.middleName}</span>
                     </div>
                     <div>
-                        <span>Магазин: {value.shop.name}</span>
+                        <span>Магазин: {shop && shop.name}</span>
                     </div>
                     <div>
                         <span>Дата заказа: {new Date(value.date).toLocaleDateString()}</span>

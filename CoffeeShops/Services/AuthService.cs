@@ -73,8 +73,11 @@ namespace CoffeeShops.Services
 
         public async Task<bool> Validate(HttpRequest request)
         {
-            var header = request.Headers["Authorization"];
-            var token = header[0]?.Replace("Bearer ", "");
+            var isAuth = request.Headers.TryGetValue("Authorization", out var value);
+            if (!isAuth)
+                return false;
+
+            var token = value[0]?.Replace("Bearer ", "");
             if (string.IsNullOrEmpty(token))
                 return false;
 
