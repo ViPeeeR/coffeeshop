@@ -91,7 +91,7 @@ namespace CoffeeShops.Controllers
 
             try
             {
-                var clients = await _clientService.GetAll(0, 0);
+                var clients = await _clientService.GetAll(page, size);
                 return Ok(clients);
             }
             catch (Exception ex)
