@@ -21,6 +21,12 @@ namespace CoffeeShops.Shops.API.Controllers
             _shopRepository = shopRepository;
         }
 
+        [HttpGet("[action]")]
+        public ActionResult Check()
+        {
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShopModel>>> Get([FromQuery]int page, [FromQuery]int size)
         {

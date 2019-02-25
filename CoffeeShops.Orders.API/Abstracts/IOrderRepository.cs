@@ -17,6 +17,8 @@ namespace CoffeeShops.Orders.API.Abstracts
 
         Task RemoveByClientId(string id);
 
+        Task RemoveByShopId(string id);
+
         Task<IEnumerable<Order>> GetByShopId(string id);
     }
 }

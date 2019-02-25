@@ -137,6 +137,7 @@ namespace CoffeeShops.Controllers
                 catch (HttpRequestException)
                 {
                     await _clientService.Create(client);
+                    return StatusCode(403, new ResponseError() { ErrorCode = 403, Message = "Сервер не доступен" });
                 }
 
                 return Ok();

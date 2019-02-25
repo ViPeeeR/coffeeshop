@@ -24,6 +24,20 @@ namespace CoffeeShops.Services
             _urls = config.Value;
         }
 
+        public async Task<bool> Check()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(_urls.Shop + "/api/v1/shop/check");
+                if (response.IsSuccessStatusCode)
+                    return true;
+            }
+            catch
+            {
+            }
+            return false;
+        }
+
         public async Task Create(ShopModel model)
         {
             await _httpClient.PostAsJsonAsync(_urls.Shop + "/api/v1/shop", model);

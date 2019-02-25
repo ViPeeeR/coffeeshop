@@ -24,6 +24,20 @@ namespace CoffeeShops.Services
             _urls = config.Value;
         }
 
+        public async Task<bool> Check()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(_urls.Order + "/api/v1/order/check");
+                if (response.IsSuccessStatusCode)
+                    return true;
+            }
+            catch
+            {
+            }
+            return false;
+        }
+
         public async Task Create(OrderModel model)
         {
             await _httpClient.PostAsJsonAsync(_urls.Order + "/api/v1/order", model);
@@ -74,6 +88,11 @@ namespace CoffeeShops.Services
         public async Task RemoveByClientId(string clientId)
         {
             await _httpClient.DeleteAsync(_urls.Order + $"/api/v1/order/client/{clientId}");
+        }
+
+        public async Task RemoveByShopId(string shopId)
+        {
+            await _httpClient.DeleteAsync(_urls.Order + $"/api/v1/order/shop/{shopId}");
         }
 
         public async Task Update(OrderModel model)

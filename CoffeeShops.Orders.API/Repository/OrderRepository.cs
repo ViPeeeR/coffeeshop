@@ -85,6 +85,17 @@ namespace CoffeeShops.Orders.API.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task RemoveByShopId(string id)
+        {
+            var orders = await GetByShopId(id);
+            _context.Orders.RemoveRange(orders);
+            foreach (var item in orders)
+            {
+                _context.Products.RemoveRange(item.Products);
+            }
+            await _context.SaveChangesAsync();
+        }
+
         public async Task Update(Order item)
         {
             var order = Get(item.Id);

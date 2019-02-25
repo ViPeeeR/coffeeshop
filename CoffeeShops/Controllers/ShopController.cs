@@ -15,12 +15,15 @@ namespace CoffeeShops.Controllers
     {
         private readonly IShopService _shopService;
         private readonly IOrderService _orderService;
+        private readonly QueueServices _queueServices;
 
         public ShopController(IShopService shopService,
-            IOrderService orderService)
+            IOrderService orderService,
+            QueueServices queueServices)
         {
             _shopService = shopService;
             _orderService = orderService;
+            _queueServices = queueServices;
         }
 
         [HttpPost]
@@ -98,13 +101,21 @@ namespace CoffeeShops.Controllers
         {
             try
             {
-                var orders = await _orderService.GetByShopId(id);
-                foreach (var order in orders)
-                {
-                    await _orderService.Remove(order.Id);
-                }
+                if (await _orderService.Check())
+                    await _orderService.RemoveByShopId(id);
+                else
+                    _queueServices.Order.Add(async () =>
+                    {
+                        await _orderService.RemoveByShopId(id);
+                    });
 
-                await _shopService.Remove(id);
+                if (await _shopService.Check())
+                    await _shopService.Remove(id);
+                else
+                    _queueServices.Shop.Add(async () =>
+                    {
+                        await _shopService.Remove(id);
+                    });
 
                 return Ok();
             }

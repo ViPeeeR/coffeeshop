@@ -21,6 +21,12 @@ namespace CoffeeShops.Orders.API.Controllers
             _orderRepository = orderRepository;
         }
 
+        [HttpGet("[action]")]
+        public ActionResult Check()
+        {
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderModel>>> Get([FromQuery]int page, [FromQuery]int size)
         {
@@ -156,6 +162,13 @@ namespace CoffeeShops.Orders.API.Controllers
         public async Task<ActionResult> DeleteByClientId(string id)
         {
             await _orderRepository.RemoveByClientId(id);
+            return Ok();
+        }
+
+        [HttpDelete("shop/{id}")]
+        public async Task<ActionResult> DeleteByShopId(string id)
+        {
+            await _orderRepository.RemoveByShopId(id);
             return Ok();
         }
     }

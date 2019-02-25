@@ -24,5 +24,9 @@ namespace CoffeeShops.Services
 
         Task RemoveByClientId(string clientId);
 
+        Task RemoveByShopId(string shopId);
+
+        Task<bool> Check();
+
     }
 }
