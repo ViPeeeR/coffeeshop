@@ -28,16 +28,17 @@ namespace CoffeeShops.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<ActionResult> AuthCode([FromQuery]string clientId)
+        public async Task<ActionResult> AuthCode([FromQuery]string client_id, [FromQuery]string response_type = "code")
         {
-            var url = await _authService.AuthCode(clientId);
+            var url = await _authService.AuthCode(client_id);
             return Ok("http://example.ru" + url);
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult> LoginApp([FromQuery]string clientId, [FromQuery]string clientSecret, [FromQuery]string code)
+        public async Task<ActionResult> LoginApp([FromQuery]string client_id, [FromQuery]string client_secret, 
+            [FromQuery]string code, [FromQuery]string grant_type = "authorization_code")
         {
-            var token = await _authService.Login(clientId, clientSecret, code);
+            var token = await _authService.Login(client_id, client_secret, code);
             return Ok(token);
         }
 
