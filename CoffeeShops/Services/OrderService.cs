@@ -71,6 +71,11 @@ namespace CoffeeShops.Services
             await _httpClient.DeleteAsync(_urls.Order + $"/api/v1/order/{id}");
         }
 
+        public async Task RemoveByClientId(string clientId)
+        {
+            await _httpClient.DeleteAsync(_urls.Order + $"/api/v1/order/client/{clientId}");
+        }
+
         public async Task Update(OrderModel model)
         {
             await _httpClient.PutAsJsonAsync(_urls.Order + $"/api/v1/order", model);

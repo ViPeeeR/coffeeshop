@@ -151,5 +151,12 @@ namespace CoffeeShops.Orders.API.Controllers
                 StatusPayment = x.StatusPayment
             }).ToList());
         }
+
+        [HttpDelete("client/{id}")]
+        public async Task<ActionResult> DeleteByClientId(string id)
+        {
+            await _orderRepository.RemoveByClientId(id);
+            return Ok();
+        }
     }
 }

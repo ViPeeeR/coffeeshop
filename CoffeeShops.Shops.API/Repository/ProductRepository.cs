@@ -38,7 +38,7 @@ namespace CoffeeShops.Shops.API.Repository
             return products;
         }
 
-        public async Task Remove(string id)
+        public async Task<Product> Remove(string id)
         {
             var product = await Get(id);
             if (product == null)
@@ -46,6 +46,8 @@ namespace CoffeeShops.Shops.API.Repository
 
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
+
+            return product;
         }
 
         public async Task Update(Product item)

@@ -48,18 +48,20 @@ namespace CoffeeShops.Orders.API.Repository
         public async Task<IEnumerable<Order>> GetByClientId(string id)
         {
             var orders = await _context.Orders.Include(x => x.Products)
-                .Where(x => x.ClientId == id).ToListAsync();
+                .Where(x => x.ClientId == id)
+                .AsNoTracking().ToListAsync();
             return orders;
         }
 
         public async Task<IEnumerable<Order>> GetByShopId(string id)
         {
             var orders = await _context.Orders.Include(x => x.Products)
-               .Where(x => x.ShopId == id).ToListAsync();
+               .Where(x => x.ShopId == id)
+               .AsNoTracking().ToListAsync();
             return orders;
         }
 
-        public async Task Remove(string id)
+        public async Task<Order> Remove(string id)
         {
             var order = await Get(id);
             if (order == null)
@@ -67,6 +69,19 @@ namespace CoffeeShops.Orders.API.Repository
 
             _context.Orders.Remove(order);
             _context.Products.RemoveRange(order.Products);
+            await _context.SaveChangesAsync();
+
+            return order;
+        }
+
+        public async Task RemoveByClientId(string clientId)
+        {
+            var orders = await GetByClientId(clientId);
+            _context.Orders.RemoveRange(orders);
+            foreach (var item in orders)
+            {
+                _context.Products.RemoveRange(item.Products);
+            }
             await _context.SaveChangesAsync();
         }
 

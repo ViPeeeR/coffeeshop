@@ -10,7 +10,7 @@ namespace CoffeeShops.Abstract
 
         Task<T> Add(T item);
 
-        Task Remove(string id);
+        Task<T> Remove(string id);
 
         Task Update(T item);
     }

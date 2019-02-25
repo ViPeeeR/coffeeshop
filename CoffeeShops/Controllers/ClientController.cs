@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CoffeeShops.Common;
 using CoffeeShops.Infrustructure;
 using CoffeeShops.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CoffeeShops.Controllers
 {
@@ -17,14 +19,16 @@ namespace CoffeeShops.Controllers
         private readonly IClientService _clientService;
         private readonly IOrderService _orderService;
         private readonly IAuthService _authService;
+        private readonly ILogger<ClientController> _logger;
 
         public ClientController(IClientService clientService,
             IOrderService orderService,
-            IAuthService authService)
+            IAuthService authService, ILogger<ClientController> logger)
         {
             _clientService = clientService;
             _orderService = orderService;
             _authService = authService;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -121,13 +125,19 @@ namespace CoffeeShops.Controllers
 
             try
             {
-                var orders = await _orderService.GetByClientId(id);
-                foreach (var order in orders)
-                {
-                    await _orderService.Remove(order.Id);
-                }
+                var client = await _clientService.Remove(id);
+                if (client == null)
+                    return BadRequest(new ResponseError() { ErrorCode = 400, Message = "Не найден такой клиент" });
 
-                await _clientService.Remove(id);
+                try
+                {
+                    // TODO: если после этого ошибка, то надо откатить (вернуть сейчас клиента, а потом его обратно добавить)
+                    await _orderService.RemoveByClientId(id);
+                }
+                catch (HttpRequestException)
+                {
+                    await _clientService.Create(client);
+                }
 
                 return Ok();
             }

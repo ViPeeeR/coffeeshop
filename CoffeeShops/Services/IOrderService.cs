@@ -21,5 +21,8 @@ namespace CoffeeShops.Services
         Task<IEnumerable<OrderModel>> GetAll(int page, int size);
 
         Task Remove(string id);
+
+        Task RemoveByClientId(string clientId);
+
     }
 }

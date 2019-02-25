@@ -67,11 +67,16 @@ namespace CoffeeShops.Services
             return client;
         }
 
-        public async Task Remove(string id)
+        public async Task<ClientModel> Remove(string id)
         {
             await ValidateToken();
 
-            await _httpClient.DeleteAsync(_urls.Client + $"/api/v1/client/{id}");
+            var response = await _httpClient.DeleteAsync(_urls.Client + $"/api/v1/client/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsAsync(typeof(ClientModel)) as ClientModel;
+            }
+            return null;
         }
 
         public async Task Update(ClientModel model)

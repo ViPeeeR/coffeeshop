@@ -27,7 +27,8 @@ namespace CoffeeShops.Users.API.Repository
 
         public async Task<Client> Get(string id)
         {
-            var client = await _context.Clients.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            var client = await _context.Clients.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
             return client;
         }
 
@@ -37,7 +38,7 @@ namespace CoffeeShops.Users.API.Repository
             return clients;
         }
 
-        public async Task Remove(string id)
+        public async Task<Client> Remove(string id)
         {
             var client = await Get(id);
             if (client == null)
@@ -45,6 +46,7 @@ namespace CoffeeShops.Users.API.Repository
 
             _context.Clients.Remove(client);
             await _context.SaveChangesAsync();
+            return client;
         }
 
         public async Task Update(Client item)

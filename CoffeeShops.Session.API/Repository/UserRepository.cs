@@ -52,7 +52,7 @@ namespace CoffeeShops.Session.API.Repository
             return user;
         }
 
-        public async Task Remove(string id)
+        public async Task<User> Remove(string id)
         {
             var user = await Get(id);
             if (user == null)
@@ -60,6 +60,7 @@ namespace CoffeeShops.Session.API.Repository
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
+            return user;
         }
 
         public async Task Update(User item)

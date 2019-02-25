@@ -80,6 +80,9 @@ namespace CoffeeShops.Users.API.Controllers
                 Sex = model.Sex
             };
 
+            if (!string.IsNullOrEmpty(model.Id))
+                client.Id = model.Id;
+
             await _clientRepository.Add(client);
             return Ok();
         }
@@ -103,10 +106,22 @@ namespace CoffeeShops.Users.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public async Task<ActionResult<ClientModel>> Delete(string id)
         {
-            await _clientRepository.Remove(id);
-            return Ok();
+            var client = await _clientRepository.Remove(id);
+            if (client != null)
+                return Ok(new ClientModel()
+                {
+                    Id = client.Id,
+                    Birthday = client.Birthday,
+                    FirstName = client.FirstName,
+                    LastName = client.LastName,
+                    MiddleName = client.MiddleName,
+                    Phone = client.Phone,
+                    Sex = client.Sex
+                });
+
+            return NoContent();
         }
     }
 }
