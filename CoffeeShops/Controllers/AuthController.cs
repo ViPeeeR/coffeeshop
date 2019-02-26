@@ -36,12 +36,12 @@ namespace CoffeeShops.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<ActionResult> AuthCode([FromQuery]string client_id, [FromQuery]string response_type = "code")
+        public async Task<ActionResult> AuthCode([FromQuery]string client_id, [FromQuery]string response_type = "code", [FromQuery]string redirect_uri = "http://example.com")
         {
             try
             {
                 var url = await _authService.AuthCode(client_id);
-                return Ok("http://example.ru" + url);
+                return Ok(url.TrimEnd('/') + url);
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace CoffeeShops.Controllers
 
         [HttpPost("[action]")]
         public async Task<ActionResult> LoginApp([FromQuery]string client_id, [FromQuery]string client_secret,
-            [FromQuery]string code, [FromQuery]string grant_type = "authorization_code")
+            [FromQuery]string code, [FromQuery]string grant_type = "authorization_code", [FromQuery]string redirect_uri = "http://example.com")
         {
             try
             {
