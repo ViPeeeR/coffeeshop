@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -8,7 +9,7 @@ namespace CoffeeShops.Infrustructure
 {
     public class QueueTasks
     {
-        private Queue<Func<Task>> _queue = new Queue<Func<Task>>();
+        private ConcurrentQueue<Func<Task>> _queue = new ConcurrentQueue<Func<Task>>();
 
         public bool Pending
         {
@@ -27,7 +28,9 @@ namespace CoffeeShops.Infrustructure
         {
             if (Pending)
             {
-                var action = _queue.Dequeue();
+                if (!_queue.TryDequeue(out var action))
+                    return false;
+
                 try
                 {
                     await action?.Invoke();
