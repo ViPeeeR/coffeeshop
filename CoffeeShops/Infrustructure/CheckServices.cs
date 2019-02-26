@@ -41,7 +41,7 @@ namespace CoffeeShops.Infrustructure
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Стоп сервиса для проверки связи");
+            _logger.LogInformation("Стоп сервиса проверки связи");
 
             _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;

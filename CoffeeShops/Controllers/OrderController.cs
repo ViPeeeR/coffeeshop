@@ -76,7 +76,7 @@ namespace CoffeeShops.Controllers
         {
             try
             {
-                var orders = await _orderService.GetAll(0, 0);
+                var orders = await _orderService.GetAll(page, size);
 
                 foreach (var order in orders)
                 {

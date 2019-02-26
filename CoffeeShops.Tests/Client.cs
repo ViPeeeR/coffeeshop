@@ -21,9 +21,6 @@ namespace CoffeeShops.Tests
             var mockClient = new Mock<IClientService>();
             var mockAuth = new Mock<IAuthService>();
 
-            mockClient.Setup(x => x.Create(clientModel))
-                .Returns(Task.CompletedTask);
-
             mockAuth.Setup(c => c.Validate(null as HttpRequest))
                 .Returns(Task.FromResult(true));
 
@@ -46,9 +43,6 @@ namespace CoffeeShops.Tests
             mockClient.Setup(x => x.Remove(clientModel.Id))
                 .Returns(Task.FromResult(clientModel));
 
-            mockOrder.Setup(x => x.RemoveByClientId(clientModel.Id))
-               .Returns(Task.CompletedTask);
-
             mockAuth.Setup(c => c.Validate(null as HttpRequest))
                 .Returns(Task.FromResult(true));
 
@@ -68,9 +62,6 @@ namespace CoffeeShops.Tests
             var mockOrder = new Mock<IOrderService>();
             var mockAuth = new Mock<IAuthService>();
 
-            mockClient.Setup(x => x.Update(clientModel))
-                .Returns(Task.CompletedTask);
-
             mockAuth.Setup(c => c.Validate(null as HttpRequest))
                 .Returns(Task.FromResult(true));
 
@@ -82,7 +73,7 @@ namespace CoffeeShops.Tests
         }
 
         [Fact]
-        public async Task Client_Ok_GetAll()
+        public async Task Client_OkObject_GetAll()
         {
             var clientModel = Model();
 
